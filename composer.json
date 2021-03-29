@@ -1,0 +1,21 @@
+{
+    "name": "xinfox/fuiou",
+    "type": "library",
+    "license": "Apache License 2.0",
+    "description": "富友API库",
+    "authors": [
+        {
+            "name": "令狐冲",
+            "email": "nicolaslei@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "XinFox\\Fuiou\\": "src"
+        }
+    }
+}
