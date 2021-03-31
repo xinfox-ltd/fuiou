@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
+use XinFox\Fuiou\Model\QueryBalance;
+
 /**
  * 上海富有支付--CRM接口
  * Class Crm
@@ -63,7 +65,7 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $cardId 卡 ID，为空则查询默认卡余额
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
-     * @return array
+     * @return QueryBalance[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function queryBalance(string $phone, string $cardId, string $openId): array
@@ -83,7 +85,12 @@ class Crm extends Api
 
 //        $response = $this->client->post($this->uri . $method, $options)->getBody()->getContents();
         $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $rows = json_decode($response, true);
+        $data = [];
+        foreach ($rows['data'] as $row) {
+            $data[] = new QueryBalance($row);
+        }
+        return $data;
     }
 
     /**

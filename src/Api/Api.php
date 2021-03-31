@@ -6,21 +6,21 @@ namespace XinFox\Fuiou\Api;
 
 use GuzzleHttp\Client;
 
-class Api
+abstract class Api
 {
-    protected $client;
-    protected $config;
+    protected Client $client;
+    protected array $config;
     //测试：
 //https://spht-test.fuioupay.com/api/queryBalance.action
 //生产：
 //https://sp-ht.fuioupay.com/api/queryBalance.action
-    protected $uri = "https://sp-ht.fuioupay.com/api/";  //crm接口连接
+    protected string $uri = "https://sp-ht.fuioupay.com/api/";  //crm接口连接
 
 //测试：
 //https://scantoeattest.fuiou.com/callBack/open.action
 //正式：
 //https://scte.fuioupay.com/callBack/open.action
-    protected $applet_url = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
+    protected $appletUrl = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
 
     public function __construct(array $config)
     {
@@ -37,7 +37,7 @@ class Api
      * return 远程输出的数据
      * @return mixed
      */
-    function getHttpResponseJSON($url, $para)
+    function getHttpResponseJSON(string $url, array $para)
     {
         $json = json_encode($para);
         $curl = curl_init($url);

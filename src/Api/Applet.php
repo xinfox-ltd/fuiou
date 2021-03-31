@@ -224,8 +224,9 @@ class Applet extends Api
         $content = array(
             'goodsId' => $goodsId,
             'channelType' => $channelType,
-            'mchntCd' => $this->config['mchntCd']
+            'mchntCd' => $this->config['mchnt_cd']
         );
+
         return $this->common($actionName, $content);
     }
 
