@@ -3,9 +3,6 @@
 
 namespace XinFox\Fuiou\Api;
 
-use http\Encoding\Stream;
-use http\QueryString;
-use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 
 /**
  * 上海富有支付--SaaS第三方小程序接口
@@ -71,8 +68,7 @@ class Applet extends Api
      */
     public function addOrder(array $content)
     {
-        $actionName = 'addOrder';
-        return $this->common($actionName, $content);
+        return $this->post('addOrder', $content);
     }
 
     /**
@@ -89,14 +85,13 @@ class Applet extends Api
         string $orderCancelReason = '',
         string $thirdOrderStatus = ''
     ) {
-        $actionName = 'updateOrder';
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
             'thirdOrderStatus' => $thirdOrderStatus,
             'orderCancelReason' => $orderCancelReason,
         );
-        return $this->common($actionName, $content);
+        return $this->post('updateOrder', $content);
     }
 
     /**
@@ -119,7 +114,6 @@ class Applet extends Api
         float $partRefundAmt = 0,
         array $partRefundGoods = array()
     ) {
-        $actionName = 'refundOrder';
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
@@ -129,7 +123,7 @@ class Applet extends Api
             'refundType' => $refundType,
             'partRefundGoods' => $partRefundGoods,
         );
-        return $this->common($actionName, $content);
+        return $this->post('refundOrder', $content);
     }
 
     /**
@@ -142,15 +136,14 @@ class Applet extends Api
      */
     public function outSysShopBind(string $shopId, string $shopName, string $ownShopId, string $ownShopName)
     {
-        $actionName = 'outSysShopBind';
         $content = array(
             'shopId' => $shopId,
             'shopName' => $shopName,
             'ownShopId' => $ownShopId,
             'ownShopName' => $ownShopName,
-            'mchntCd' => $this->config['mchntCd']
+            'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->common($actionName, $content);
+        return $this->post('outSysShopBind', $content);
     }
 
     /**
@@ -161,13 +154,12 @@ class Applet extends Api
      */
     public function outSysShopUnBind(string $shopId, string $ownShopId)
     {
-        $actionName = 'outSysShopUnBind';
         $content = array(
             'shopId' => $shopId,
             'ownShopId' => $ownShopId,
-            'mchntCd' => $this->config['mchntCd']
+            'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->common($actionName, $content);
+        return $this->post('outSysShopUnBind', $content);
     }
 
     /**
@@ -177,12 +169,11 @@ class Applet extends Api
      */
     public function queryOrderByOrderNo(string $orderNo)
     {
-        $actionName = 'queryOrderByOrderNo';
         $content = array(
             'orderNo' => $orderNo,
-            'mchntCd' => $this->config['mchntCd']
+            'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->common($actionName, $content);
+        return $this->post('queryOrderByOrderNo', $content);
     }
 
     /**
@@ -191,11 +182,10 @@ class Applet extends Api
      */
     public function queryShopList()
     {
-        $actionName = 'queryShopList';
         $content = array(
-            'mchntCd' => $this->config['mchntCd']
+            'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->common($actionName, $content);
+        return $this->post('queryShopList', $content);
     }
 
     /**
@@ -205,11 +195,10 @@ class Applet extends Api
      */
     public function queryGoodsList(string $shopId)
     {
-        $actionName = 'queryShopList';
         $content = array(
             'shopId' => $shopId
         );
-        return $this->common($actionName, $content);
+        return $this->post('queryShopList', $content);
     }
 
     /**
@@ -220,14 +209,13 @@ class Applet extends Api
      */
     public function queryGoodsDetail(string $goodsId, string $channelType)
     {
-        $actionName = 'queryGoodsDetail';
         $content = array(
             'goodsId' => $goodsId,
             'channelType' => $channelType,
             'mchntCd' => $this->config['mchnt_cd']
         );
 
-        return $this->common($actionName, $content);
+        return $this->post('queryGoodsDetail', $content);
     }
 
     /**
@@ -246,7 +234,6 @@ class Applet extends Api
         string $deliverName = '',
         string $deliverPhone = ''
     ) {
-        $actionName = 'pushOrderDeliveryInfo';
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'deliveryState' => $deliveryState,
@@ -254,7 +241,7 @@ class Applet extends Api
             'deliverName' => $deliverName,
             'deliverPhone' => $deliverPhone
         );
-        return $this->common($actionName, $content);
+        return $this->post('pushOrderDeliveryInfo', $content);
     }
 
 
@@ -264,7 +251,7 @@ class Applet extends Api
      * @param array $content 协议参数 注：转义 json 结构
      * @return mixed
      */
-    public function common(string $actionName, array $content)
+    public function post(string $actionName, array $content)
     {
         //String sign = Md5Util.get32MD5(appKey + actionName + secret + timestamp +(StringUtil.isNullOrBlank(content) ?"" : content))
         $timestamp = $this->getMillisecond();
@@ -272,15 +259,15 @@ class Applet extends Api
             'timestamp' => $timestamp,
             'secret' => $this->config['secret'],
             'content' => $content,
-            'appKey' => $this->config['appKey'],
+            'appKey' => $this->config['app_key'],
             'actionName' => $actionName,
         );
         ksort($content);
         $content = json_encode($content, JSON_UNESCAPED_UNICODE);
-        $s = "{$this->config['appKey']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
+        $s = "{$this->config['app_key']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
         $sign = md5($s);
         $options['sign'] = $sign;
-        $response = $this->getHttpResponseJSON($this->applet_url, $options);
+        $response = $this->getHttpResponseJSON($this->appletUrl, $options);
         return json_decode($response, true);
     }
 

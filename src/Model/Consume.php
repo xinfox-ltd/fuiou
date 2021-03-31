@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Model;
 
-/**
- * Class QueryBalance
- * @package XinFox\Fuiou\Model
- */
-class QueryBalance
+
+class Consume
 {
 
     /**
@@ -36,7 +33,7 @@ class QueryBalance
      */
     private int $giveBalance;
 
-    
+
     public function __construct(array $data)
     {
         foreach ($data as $key => $val) {
@@ -53,7 +50,7 @@ class QueryBalance
     {
         return $this->balance;
     }
-    
+
 
     /**
      * @return int

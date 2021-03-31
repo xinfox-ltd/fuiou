@@ -7,8 +7,8 @@ declare(strict_types=1);
 require '../vendor/autoload.php';
 
 $config = [
-    'mchntCd' => '0006110F3733501',
-    'appKey' => '0006110F3733501',
+    'mchnt_cd' => '0006110F3733501',
+    'app_key' => '0006110F3733501',
     'secret' => '27e82212-be27-4e58-8cfa-e68c1dc2fd2b',
     'salt' => 'qlb6n7vUGo3W0J9ysHrxFTSF3R9h9Aqd',
     'host' => 'https://scte.fuioupay.com/callBack/open.action',

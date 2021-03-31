@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Model;
 
-/**
- * Class QueryBalance
- * @package XinFox\Fuiou\Model
- */
-class QueryBalance
-{
 
+class Recharge
+{
     /**
      * @var string  返回代码
      */
@@ -36,7 +32,7 @@ class QueryBalance
      */
     private int $giveBalance;
 
-    
+
     public function __construct(array $data)
     {
         foreach ($data as $key => $val) {
@@ -53,7 +49,7 @@ class QueryBalance
     {
         return $this->balance;
     }
-    
+
 
     /**
      * @return int

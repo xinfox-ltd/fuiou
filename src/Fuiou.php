@@ -29,8 +29,8 @@ class Fuiou
     public function __construct(array $config)
     {
         if (!empty($config)) {
-            if (empty($config['mchntCd']) || empty($config['appKey']) || empty($config['secret'])) {
-                throw new InvalidArgumentException('The mchntCd、appKey、secret must not be empty');
+            if (empty($config['mchnt_cd']) || empty($config['app_key']) || empty($config['secret'])) {
+                throw new InvalidArgumentException('The mchnt_cd、app_key、secret must not be empty');
             }
             $this->config = $config;
 

@@ -10,7 +10,7 @@ abstract class Api
 {
     protected Client $client;
     protected array $config;
-    //测试：
+ //测试：
 //https://spht-test.fuioupay.com/api/queryBalance.action
 //生产：
 //https://sp-ht.fuioupay.com/api/queryBalance.action
@@ -20,7 +20,7 @@ abstract class Api
 //https://scantoeattest.fuiou.com/callBack/open.action
 //正式：
 //https://scte.fuioupay.com/callBack/open.action
-    protected $appletUrl = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
+    protected string $appletUrl = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
 
     public function __construct(array $config)
     {

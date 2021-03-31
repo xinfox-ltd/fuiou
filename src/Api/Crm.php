@@ -7,7 +7,22 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
+use XinFox\Fuiou\Model\Adjust;
+use XinFox\Fuiou\Model\Consume;
+use XinFox\Fuiou\Model\ConsumeUserCoupon;
+use XinFox\Fuiou\Model\EditPoint;
+use XinFox\Fuiou\Model\InvalidUserCoupon;
+use XinFox\Fuiou\Model\QueryAllCards;
 use XinFox\Fuiou\Model\QueryBalance;
+use XinFox\Fuiou\Model\QueryMchntCouponListPage;
+use XinFox\Fuiou\Model\QueryMemPageListApi;
+use XinFox\Fuiou\Model\QueryPoint;
+use XinFox\Fuiou\Model\QueryUserCouponDetail;
+use XinFox\Fuiou\Model\QueryUserCoupons;
+use XinFox\Fuiou\Model\QueryUserInfo;
+use XinFox\Fuiou\Model\Recharge;
+use XinFox\Fuiou\Model\RegisterUserApi;
+use XinFox\Fuiou\Model\SendCoupon;
 
 /**
  * 上海富有支付--CRM接口
@@ -39,14 +54,13 @@ class Crm extends Api
         string $adjustType = '',
         string $cardId = '',
         string $openId = ''
-    ) {
+    ): Adjust {
 
 //        mchntCd+"|"+phone+"|"+cardNo+"|"+adjustPwd+"|"+adjustAmt +"|"+salt 做 MD5 加密。
 //        salt: 请向富友运营申请秘钥
-        $method = 'adjust.action';
-        $key = md5($this->config['mchntCd'] . "|" . $phone . "|" . $cardNo . "|" . $adjustPwd . "|" . $adjustAmt . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $phone . "|" . $cardNo . "|" . $adjustPwd . "|" . $adjustAmt . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'cardNo' => $cardNo,
             'adjustAmt' => $adjustAmt,
@@ -57,8 +71,8 @@ class Crm extends Api
             'cardId' => $cardId,
             'openId' => $openId
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = $this->getHttpResponseJSON($this->uri . 'adjust.action', $options);
+        return new Adjust(json_decode($response, true));
     }
 
     /** 余额查询接口 2
@@ -68,29 +82,22 @@ class Crm extends Api
      * @return QueryBalance[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function queryBalance(string $phone, string $cardId, string $openId): array
+    public function queryBalance(string $phone, string $cardId, string $openId): QueryBalance
     {
-        $method = 'queryBalance.action';
 
         //phone +"|"+ mchntCd +"|"+salt 做 MD5 加密。
         //salt= 请向富友运营申请秘钥
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'key' => $key,
             'cardId' => $cardId,
             'openId' => $openId,
         );
 
-//        $response = $this->client->post($this->uri . $method, $options)->getBody()->getContents();
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        $rows = json_decode($response, true);
-        $data = [];
-        foreach ($rows['data'] as $row) {
-            $data[] = new QueryBalance($row);
-        }
-        return $data;
+        $response = $this->getHttpResponseJSON($this->uri . 'queryBalance.action', $options);
+        return new QueryBalance(json_decode($response, true));
     }
 
     /**
@@ -99,21 +106,20 @@ class Crm extends Api
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
      */
-    public function queryPoint(string $phone, string $openId)
+    public function queryPoint(string $phone, string $openId): QueryPoint
     {
-        $method = 'queryPoint.action';
         //签名示例：
         //phone +"|"+ mchntCd +"|"+salt 做 MD5 加密。
         //salt: 请向富友运营申请秘钥
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = $this->getHttpResponseJSON($this->uri . 'queryPoint.action', $options);
+        return new QueryPoint(json_decode($response, true));
     }
 
     /**
@@ -125,14 +131,18 @@ class Crm extends Api
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
      */
-    public function editPoint(string $point, string $oldPoint, string $operator, string $phone, string $openId)
-    {
+    public function editPoint(
+        string $point,
+        string $oldPoint,
+        string $operator,
+        string $phone,
+        string $openId
+    ): EditPoint {
 
-        $method = 'editPoint.action';
         //phone +"|"+ mchntCd +"|" + oldPoint + "|" + point + "|" + salt 做 MD5 加密。
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $oldPoint . "|" . $point . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $oldPoint . "|" . $point . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'point' => $point,
             'oldPoint' => $oldPoint,
@@ -140,8 +150,8 @@ class Crm extends Api
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = $this->getHttpResponseJSON($this->uri . 'editPoint.action', $options);
+        return new EditPoint(json_decode($response, true));
     }
 
     /**
@@ -150,37 +160,50 @@ class Crm extends Api
      * @param string $openId openId，手机号和openId 不能同时为空，手机号为空时请传空串
      * @return mixed
      */
-    public function queryUserInfo(string $phone, string $openId)
+    public function queryUserInfo(string $phone, string $openId): array
     {
-
-        $method = 'queryUserInfo.action';
         //phone +"|"+ mchntCd +"|" + salt 做 MD5 加密。
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserInfo.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryUserInfo($row);
+            }
+            return $data;
+        }
     }
 
     /**
      * 查询商户所有卡 6
      * @return mixed
      */
-    public function queryAllCards()
+    public function queryAllCards(): array
     {
-        $method = 'queryAllCards.action';
         //mchntCd +"|" + salt 做 MD5 加密。
-        $key = md5($this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryAllCards.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryAllCards($row);
+            }
+            return $data;
+        }
     }
 
     /**
@@ -198,12 +221,11 @@ class Crm extends Api
         string $couponState = '',
         string $useState = '',
         string $sortType = ''
-    ) {
-        $method = 'queryUserCoupons.action';
+    ): array {
         //phone +"|"+ mchntCd +"|" + salt 做 MD5 加密。
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'openId' => $openId,
             'couponState' => $couponState,
@@ -211,8 +233,16 @@ class Crm extends Api
             'sortType' => $sortType,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCoupons.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryUserCoupons($row);
+            }
+            return $data;
+        }
     }
 
     /**
@@ -222,20 +252,28 @@ class Crm extends Api
      * @param string $userCouponId 用户优惠券 ID
      * @return mixed
      */
-    public function queryUserCouponDetail(string $phone, string $openId, string $userCouponId)
+    public function queryUserCouponDetail(string $phone, string $openId, string $userCouponId): array
     {
-        $method = 'queryUserCouponDetail.action';
         //phone +"|"+ mchntCd +"|"+userCouponId +"|"+ salt 做 MD5
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $userCouponId . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $userCouponId . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'openId' => $openId,
             'userCouponId' => $userCouponId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCouponDetail.action', $options),
+            true);
+        if ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryUserCouponDetail($row);
+            }
+            return $data;
+        }
     }
 
     /**
@@ -255,12 +293,11 @@ class Crm extends Api
         string $termId,
         string $phone,
         string $openId
-    ) {
-        $method = 'consumeUserCoupon.action';
+    ): ConsumeUserCoupon {
         //phone +"|"+ mchntCd +"|" +userCouponId +"|"+ disAmt +"|"+ shopId +"|"+ termId +"|"+ salt 做 MD5 加密。
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $userCouponId . "|" . $disAmt . "|" . $shopId . "|" . $termId . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $userCouponId . "|" . $disAmt . "|" . $shopId . "|" . $termId . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'userCouponId' => $userCouponId,
             'disAmt' => $disAmt,
@@ -269,8 +306,8 @@ class Crm extends Api
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'consumeUserCoupon.action', $options), true);
+        return new ConsumeUserCoupon($response);
     }
 
     /**
@@ -286,20 +323,19 @@ class Crm extends Api
         string $couponId,
         string $phone,
         string $openId
-    ) {
-        $method = 'invalidUserCoupon.action';
+    ): InvalidUserCoupon {
         //phone +"|"+ mchntCd +"|" +userCouponId +"|"+ couponId+"|"+ salt 做 MD5 加密。
-        $key = md5($phone . "|" . $this->config['mchntCd'] . "|" . $userCouponId . "|" . $couponId . "|" . $this->config['salt']);
+        $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $userCouponId . "|" . $couponId . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'phone' => $phone,
             'userCouponId' => $userCouponId,
             'couponId' => $couponId,
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'invalidUserCoupon.action', $options), true);
+        return new InvalidUserCoupon($response);
     }
 
 
@@ -330,12 +366,11 @@ class Crm extends Api
         string $aliUserId,
         string $addInf1,
         string $addInf2
-    ) {
-        $method = 'registerUserApi.action';
+    ): RegisterUserApi {
 //       mchntCd +"|"+ pwd+"|" +phone+"|"+ offlineCardNo+"|"+ salt做 MD5 加密。
-        $key = md5($this->config['mchntCd'] . "|" . $pwd . "|" . $phone . "|" . $offlineCardNo . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $pwd . "|" . $phone . "|" . $offlineCardNo . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'pwd' => $pwd,
             'phone' => $phone,
             'offlineCardNo' => $offlineCardNo,
@@ -349,8 +384,8 @@ class Crm extends Api
             'addInf2' => $addInf2,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'registerUserApi.action', $options), true);
+        return new RegisterUserApi($response);
     }
 
 
@@ -361,20 +396,30 @@ class Crm extends Api
      * @param int $pageSize 每页条数,不填默认 20
      * @return mixed
      */
-    public function queryMemPageListApi(string $shopId = '', int $pageNum = 1, int $pageSize = 20)
+    public function queryMemPageListApi(string $shopId = '', int $pageNum = 1, int $pageSize = 20): array
     {
-        $method = 'queryMemPageListApi.action';
         //当 shopId 不为空时：mchntCd +"|"+ shopId+"|" + salt 做 MD5 加密。当 shopId 为空时：mchntCd +"|"+"" +"|" + salt 做 MD5 加密。
-        $key = md5($this->config['mchntCd'] . "|" . $shopId . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $shopId . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'shopId' => $shopId,
             'pageNum' => $pageNum,
             'pageSize' => $pageSize,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryMemPageListApi.action', $options),
+            true);
+        if (!isset($response['resultCode'])) {
+            return [];
+        } elseif ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryMemPageListApi($row);
+            }
+            return $data;
+        }
     }
 
 
@@ -388,17 +433,16 @@ class Crm extends Api
      */
     public function setMemLevelAndExperienceApi(string $openId, string $levelValue, string $experience)
     {
-        $method = 'setMemLevelAndExperienceApi.action';
         //mchntCd+"|"+openId+"|"+levelValue+"|"+experience+"|"+salt做 MD5 加密。
-        $key = md5($this->config['mchntCd'] . "|" . $openId . "|" . $levelValue . "|" . $experience . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $openId . "|" . $levelValue . "|" . $experience . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'openId' => $openId,
             'levelValue' => $levelValue,
             'experience' => $experience,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
+        $response = $this->getHttpResponseJSON($this->uri . 'setMemLevelAndExperienceApi.action', $options);
         return json_decode($response, true);
     }
 
@@ -409,20 +453,30 @@ class Crm extends Api
      * @param string $sendObjListJson 发放对象列表 JSON：传入多个手机号 &openid&实体卡号，三选一 上限 500 条
      * @return mixed
      */
-    public function sendCoupon(string $couponId, string $sendObjType, string $sendObjListJson)
+    public function sendCoupon(string $couponId, string $sendObjType, string $sendObjListJson): array
     {
-        $method = 'sendCoupon.action';
         //mchntCd +"|" +couponId +"|" +sendObjType+"|"+ salt 做 MD5加密。
-        $key = md5($this->config['mchntCd'] . "|" . $couponId . "|" . $sendObjType . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $couponId . "|" . $sendObjType . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'couponId' => $couponId,
             'sendObjType' => $sendObjType,
             'sendObjListJson' => $sendObjListJson,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'sendCoupon.action', $options),
+            true);
+        if (!isset($response['resultCode'])) {
+            return [];
+        } elseif ($response['resultCode'] != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new SendCoupon($row);
+            }
+            return $data;
+        }
     }
 
     /**
@@ -431,19 +485,40 @@ class Crm extends Api
      * @param int $pageSize 每页条数，不填默认 20
      * @return mixed
      */
-    public function queryMchntCouponListPage(int $pageNum = 1, int $pageSize = 20)
+    public function queryMchntCouponListPage(int $pageNum = 1, int $pageSize = 20): array
     {
-        $method = 'queryMchntCouponListPage.action';
-        //mchntCd+"|"+salt 做 MD5 加密
-        $key = md5($this->config['mchntCd'] . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'pageNum' => $pageNum,
             'pageSize' => $pageSize,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryMchntCouponListPage.action', $options),
+            true);
+        $respCode = isset($response['respCode']) ? $response['respCode'] : null;
+        $resultMsg = isset($response['resultMsg']) ? $response['resultMsg'] : null;
+        $pageNum = isset($response['pageNum']) ? $response['pageNum'] : null;
+        $pageSize = isset($response['pageSize']) ? $response['pageSize'] : null;
+        $totalCount = isset($response['totalCount']) ? $response['totalCount'] : null;
+        $totalPages = isset($response['totalPages']) ? $response['totalPages'] : null;
+        if ($respCode != '000000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryMchntCouponListPage($row);
+            }
+            return array(
+                'resultCode' => $respCode,
+                'resultMsg' => $resultMsg,
+                'pageNum' => $pageNum,
+                'pageSize' => $pageSize,
+                'totalCount' => $totalCount,
+                'totalPages' => $totalPages,
+                'data' => $data
+            );
+        }
     }
 
 
@@ -455,21 +530,21 @@ class Crm extends Api
      * @param string $freeAmt 赠送金额元），没有则传空串
      * @return mixed
      */
-    public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt)
+    public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt): Recharge
     {
         $method = 'recharge.action';
         //mchntCd+"|"+openId+"|"+shopId+"|"+chargeAmt+"|"+freeAmt+ "|"+salt 做 MD5 加密。
-        $key = md5($this->config['mchntCd'] . "|" . $openId . "|" . $shopId . "|" . $chargeAmt . "|" . $freeAmt . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $openId . "|" . $shopId . "|" . $chargeAmt . "|" . $freeAmt . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'openId' => $openId,
             'shopId' => $shopId,
             'chargeAmt' => $chargeAmt,
             'freeAmt' => $freeAmt,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'recharge.action', $options), true);
+        return new Recharge($response);
 
     }
 
@@ -481,19 +556,18 @@ class Crm extends Api
      * @param string $chargeAmt 消费金额（元
      * @return mixed
      */
-    public function consume(string $openId, string $termId, string $chargeAmt)
+    public function consume(string $openId, string $termId, string $chargeAmt): Consume
     {
-        $method = 'consume.action';
         //mchntCd+"|"+openId+"|"+termId+"|"+consumeAmt+"|"+salt 做 MD5加密。
-        $key = md5($this->config['mchntCd'] . "|" . $openId . "|" . $termId . "|" . $chargeAmt . "|" . $this->config['salt']);
+        $key = md5($this->config['mchnt_cd'] . "|" . $openId . "|" . $termId . "|" . $chargeAmt . "|" . $this->config['salt']);
         $options = array(
-            'mchntCd' => $this->config['mchntCd'],
+            'mchntCd' => $this->config['mchnt_cd'],
             'openId' => $openId,
             'termId' => $termId,
             'consumeAmt' => $chargeAmt,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . $method, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'consume.action', $options), true);
+        return new Consume($response);
     }
 }
