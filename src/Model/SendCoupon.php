@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Model;
 
-
+/**
+ * Class SendCoupon
+ * @package XinFox\Fuiou\Model
+ */
 class SendCoupon
 {
     /**

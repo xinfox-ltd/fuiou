@@ -4,6 +4,17 @@
 namespace XinFox\Fuiou\Api;
 
 
+use XinFox\Fuiou\Model\AddOrder;
+use XinFox\Fuiou\Model\OutSysShopBind;
+use XinFox\Fuiou\Model\OutSysShopUnBind;
+use XinFox\Fuiou\Model\PushOrderDeliveryInfo;
+use XinFox\Fuiou\Model\QueryGoodsDetail;
+use XinFox\Fuiou\Model\QueryGoodsList;
+use XinFox\Fuiou\Model\QueryOrderByOrderNo;
+use XinFox\Fuiou\Model\QueryShopList;
+use XinFox\Fuiou\Model\RefundOrder;
+use XinFox\Fuiou\Model\UpdateOrder;
+
 /**
  * 上海富有支付--SaaS第三方小程序接口
  * Class Applet
@@ -66,9 +77,9 @@ class Applet extends Api
      * }
      * @return mixed
      */
-    public function addOrder(array $content)
+    public function addOrder(array $content): AddOrder
     {
-        return $this->post('addOrder', $content);
+        return new AddOrder($this->post('addOrder', $content));
     }
 
     /**
@@ -84,14 +95,14 @@ class Applet extends Api
         string $status,
         string $orderCancelReason = '',
         string $thirdOrderStatus = ''
-    ) {
+    ): UpdateOrder {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
             'thirdOrderStatus' => $thirdOrderStatus,
             'orderCancelReason' => $orderCancelReason,
         );
-        return $this->post('updateOrder', $content);
+        return new UpdateOrder($this->post('updateOrder', $content));
     }
 
     /**
@@ -113,7 +124,7 @@ class Applet extends Api
         string $refundType,
         float $partRefundAmt = 0,
         array $partRefundGoods = array()
-    ) {
+    ): RefundOrder {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
@@ -123,7 +134,7 @@ class Applet extends Api
             'refundType' => $refundType,
             'partRefundGoods' => $partRefundGoods,
         );
-        return $this->post('refundOrder', $content);
+        return new RefundOrder($this->post('refundOrder', $content));
     }
 
     /**
@@ -134,8 +145,12 @@ class Applet extends Api
      * @param string $ownShopName 第三方门店名字
      * @return mixed
      */
-    public function outSysShopBind(string $shopId, string $shopName, string $ownShopId, string $ownShopName)
-    {
+    public function outSysShopBind(
+        string $shopId,
+        string $shopName,
+        string $ownShopId,
+        string $ownShopName
+    ): OutSysShopBind {
         $content = array(
             'shopId' => $shopId,
             'shopName' => $shopName,
@@ -143,7 +158,7 @@ class Applet extends Api
             'ownShopName' => $ownShopName,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->post('outSysShopBind', $content);
+        return new OutSysShopBind($this->post('outSysShopBind', $content));
     }
 
     /**
@@ -152,14 +167,14 @@ class Applet extends Api
      * @param string $ownShopId 第三方门店 id
      * @return mixed
      */
-    public function outSysShopUnBind(string $shopId, string $ownShopId)
+    public function outSysShopUnBind(string $shopId, string $ownShopId): OutSysShopUnBind
     {
         $content = array(
             'shopId' => $shopId,
             'ownShopId' => $ownShopId,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->post('outSysShopUnBind', $content);
+        return new OutSysShopUnBind($this->post('outSysShopUnBind', $content));
     }
 
     /**
@@ -167,25 +182,52 @@ class Applet extends Api
      * @param string $orderNo 订单号
      * @return mixed
      */
-    public function queryOrderByOrderNo(string $orderNo)
+    public function queryOrderByOrderNo(string $orderNo): array
     {
         $content = array(
             'orderNo' => $orderNo,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->post('queryOrderByOrderNo', $content);
+        $response = $this->post('queryOrderByOrderNo', $content);
+        $status = isset($response['status']) ? $response['status'] : null;
+        $msg = isset($response['msg']) ? $response['msg'] : null;
+        if ($status != '0000') {
+            return $response;
+        } else {
+            $data = new QueryOrderByOrderNo($response['data']);
+            return array(
+                'status' => $status,
+                'msg' => $msg,
+                'data' => $data
+            );
+        }
     }
 
     /**
      * 门店列表查询接口
      * @return mixed
      */
-    public function queryShopList()
+    public function queryShopList(): array
     {
         $content = array(
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return $this->post('queryShopList', $content);
+        $response = $this->post('queryShopList', $content);
+        $status = isset($response['status']) ? $response['status'] : null;
+        $msg = isset($response['msg']) ? $response['msg'] : null;
+        if ($status != '0000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryShopList($row);
+            }
+            return array(
+                'status' => $status,
+                'msg' => $msg,
+                'data' => $data
+            );
+        }
     }
 
     /**
@@ -193,12 +235,27 @@ class Applet extends Api
      * @param string $shopId 门店号
      * @return mixed
      */
-    public function queryGoodsList(string $shopId)
+    public function queryGoodsList(string $shopId): array
     {
         $content = array(
             'shopId' => $shopId
         );
-        return $this->post('queryShopList', $content);
+        $response = $this->post('queryShopList', $content);
+        $status = isset($response['status']) ? $response['status'] : null;
+        $msg = isset($response['msg']) ? $response['msg'] : null;
+        if ($status != '0000') {
+            return $response;
+        } else {
+            $data = [];
+            foreach ($response['data'] as $row) {
+                $data[] = new QueryGoodsList($row);
+            }
+            return array(
+                'status' => $status,
+                'msg' => $msg,
+                'data' => $data
+            );
+        }
     }
 
     /**
@@ -214,8 +271,19 @@ class Applet extends Api
             'channelType' => $channelType,
             'mchntCd' => $this->config['mchnt_cd']
         );
-
-        return $this->post('queryGoodsDetail', $content);
+        $response = $this->post('queryGoodsDetail', $content);
+        $status = isset($response['status']) ? $response['status'] : null;
+        $msg = isset($response['msg']) ? $response['msg'] : null;
+        if ($status != '0000') {
+            return $response;
+        } else {
+            $data = new QueryGoodsDetail($response['data']);
+            return array(
+                'status' => $status,
+                'msg' => $msg,
+                'data' => $data
+            );
+        }
     }
 
     /**
@@ -241,7 +309,7 @@ class Applet extends Api
             'deliverName' => $deliverName,
             'deliverPhone' => $deliverPhone
         );
-        return $this->post('pushOrderDeliveryInfo', $content);
+        return new PushOrderDeliveryInfo($this->post('pushOrderDeliveryInfo', $content));
     }
 
 
