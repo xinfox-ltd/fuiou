@@ -4,6 +4,7 @@
 namespace XinFox\Fuiou\Api;
 
 
+use XinFox\Fuiou\Exceptions\ApiException;
 use XinFox\Fuiou\Model\AddOrder;
 use XinFox\Fuiou\Model\OutSysShopBind;
 use XinFox\Fuiou\Model\OutSysShopUnBind;
@@ -76,6 +77,7 @@ class Applet extends Api
      *
      * }
      * @return mixed
+     * @throws ApiException
      */
     public function addOrder(array $content): AddOrder
     {
@@ -89,6 +91,7 @@ class Applet extends Api
      * @param string $orderCancelReason 快递状态 0 处理 1:待快递员接单 2:快递员已接单待取货 3:快递员配送中 4:已完成 5:已取消 9:快递异常'
      * @param string $thirdOrderStatus 订单取消原因（取消时必填）
      * @return mixed
+     * @throws ApiException
      */
     public function updateOrder(
         string $thirdOrderNo,
@@ -115,6 +118,7 @@ class Applet extends Api
      * @param float $partRefundAmt 部分退款金额
      * @param array $partRefundGoods 部分退款商品名
      * @return mixed
+     * @throws ApiException
      */
     public function refundOrder(
         string $thirdOrderNo,
@@ -144,6 +148,7 @@ class Applet extends Api
      * @param string $ownShopId 第三方门店 id
      * @param string $ownShopName 第三方门店名字
      * @return mixed
+     * @throws ApiException
      */
     public function outSysShopBind(
         string $shopId,
@@ -166,6 +171,7 @@ class Applet extends Api
      * @param string $shopId 富友系统门店 id
      * @param string $ownShopId 第三方门店 id
      * @return mixed
+     * @throws ApiException
      */
     public function outSysShopUnBind(string $shopId, string $ownShopId): OutSysShopUnBind
     {
@@ -181,6 +187,7 @@ class Applet extends Api
      * 订单查询接口
      * @param string $orderNo 订单号
      * @return mixed
+     * @throws ApiException
      */
     public function queryOrderByOrderNo(string $orderNo): array
     {
@@ -189,23 +196,13 @@ class Applet extends Api
             'mchntCd' => $this->config['mchnt_cd']
         );
         $response = $this->post('queryOrderByOrderNo', $content);
-        $status = isset($response['status']) ? $response['status'] : null;
-        $msg = isset($response['msg']) ? $response['msg'] : null;
-        if ($status != '0000') {
-            return $response;
-        } else {
-            $data = new QueryOrderByOrderNo($response['data']);
-            return array(
-                'status' => $status,
-                'msg' => $msg,
-                'data' => $data
-            );
-        }
+        return new QueryOrderByOrderNo($response['data']);
     }
 
     /**
      * 门店列表查询接口
      * @return mixed
+     * @throws ApiException
      */
     public function queryShopList(): array
     {
@@ -213,27 +210,18 @@ class Applet extends Api
             'mchntCd' => $this->config['mchnt_cd']
         );
         $response = $this->post('queryShopList', $content);
-        $status = isset($response['status']) ? $response['status'] : null;
-        $msg = isset($response['msg']) ? $response['msg'] : null;
-        if ($status != '0000') {
-            return $response;
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryShopList($row);
-            }
-            return array(
-                'status' => $status,
-                'msg' => $msg,
-                'data' => $data
-            );
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryShopList($row);
         }
+        return $data;
     }
 
     /**
      * 商品列表查询接口
      * @param string $shopId 门店号
      * @return mixed
+     * @throws ApiException
      */
     public function queryGoodsList(string $shopId): array
     {
@@ -241,21 +229,12 @@ class Applet extends Api
             'shopId' => $shopId
         );
         $response = $this->post('queryShopList', $content);
-        $status = isset($response['status']) ? $response['status'] : null;
-        $msg = isset($response['msg']) ? $response['msg'] : null;
-        if ($status != '0000') {
-            return $response;
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryGoodsList($row);
-            }
-            return array(
-                'status' => $status,
-                'msg' => $msg,
-                'data' => $data
-            );
+
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryGoodsList($row);
         }
+        return $data;
     }
 
     /**
@@ -263,6 +242,7 @@ class Applet extends Api
      * @param string $goodsId 商品号
      * @param string $channelType 渠道类型：00：扫码点餐，01:收银机
      * @return mixed
+     * @throws ApiException
      */
     public function queryGoodsDetail(string $goodsId, string $channelType)
     {
@@ -271,19 +251,7 @@ class Applet extends Api
             'channelType' => $channelType,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        $response = $this->post('queryGoodsDetail', $content);
-        $status = isset($response['status']) ? $response['status'] : null;
-        $msg = isset($response['msg']) ? $response['msg'] : null;
-        if ($status != '0000') {
-            return $response;
-        } else {
-            $data = new QueryGoodsDetail($response['data']);
-            return array(
-                'status' => $status,
-                'msg' => $msg,
-                'data' => $data
-            );
-        }
+        return new QueryGoodsDetail($this->post('queryGoodsDetail', $content));
     }
 
     /**
@@ -294,6 +262,7 @@ class Applet extends Api
      * @param string $deliverName 快递员姓名
      * @param string $deliverPhone 快递员电话
      * @return mixed
+     * @throws ApiException
      */
     public function pushOrderDeliveryInfo(
         string $thirdOrderNo,
@@ -318,6 +287,7 @@ class Applet extends Api
      * @param string $actionName 接口名称
      * @param array $content 协议参数 注：转义 json 结构
      * @return mixed
+     * @throws ApiException
      */
     public function post(string $actionName, array $content)
     {
@@ -335,8 +305,13 @@ class Applet extends Api
         $s = "{$this->config['app_key']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
         $sign = md5($s);
         $options['sign'] = $sign;
-        $response = $this->getHttpResponseJSON($this->appletUrl, $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->appletUrl, $options), true);
+        $status = isset($response['status']) ? $response['status'] : null;
+        $msg = isset($response['msg']) ? $response['msg'] : null;
+        if ($status != '0000') {
+            throw new ApiException($msg, $status);
+        }
+        return $response;
     }
 
     /**

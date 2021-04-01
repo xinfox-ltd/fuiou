@@ -12,16 +12,6 @@ class QueryPoint
      */
     private int $point;
 
-    /**
-     * @var string  返回代码
-     */
-    private string $resultCode;
-
-    /**
-     * @var string 返回信息
-     */
-    private string $resultMsg;
-
     public function __construct(array $data)
     {
         foreach ($data as $key => $val) {
@@ -29,22 +19,6 @@ class QueryPoint
                 $this->$key = $val;
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultCode()
-    {
-        return $this->resultCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultMsg()
-    {
-        return $this->resultMsg;
     }
 
     /**

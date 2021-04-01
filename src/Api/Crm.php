@@ -7,11 +7,10 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
+use XinFox\Fuiou\Exceptions\ApiException;
 use XinFox\Fuiou\Model\Adjust;
 use XinFox\Fuiou\Model\Consume;
-use XinFox\Fuiou\Model\ConsumeUserCoupon;
 use XinFox\Fuiou\Model\EditPoint;
-use XinFox\Fuiou\Model\InvalidUserCoupon;
 use XinFox\Fuiou\Model\QueryAllCards;
 use XinFox\Fuiou\Model\QueryBalance;
 use XinFox\Fuiou\Model\QueryMchntCouponListPage;
@@ -21,7 +20,6 @@ use XinFox\Fuiou\Model\QueryUserCouponDetail;
 use XinFox\Fuiou\Model\QueryUserCoupons;
 use XinFox\Fuiou\Model\QueryUserInfo;
 use XinFox\Fuiou\Model\Recharge;
-use XinFox\Fuiou\Model\RegisterUserApi;
 use XinFox\Fuiou\Model\SendCoupon;
 
 /**
@@ -44,6 +42,7 @@ class Crm extends Api
      * @param string|null $cardId 卡 ID，为空则对默认卡进行调账
      * @param string|null $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function adjust(
         string $adjustAmt,
@@ -71,8 +70,11 @@ class Crm extends Api
             'cardId' => $cardId,
             'openId' => $openId
         );
-        $response = $this->getHttpResponseJSON($this->uri . 'adjust.action', $options);
-        return new Adjust(json_decode($response, true));
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'adjust.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return new Adjust($response);
     }
 
     /** 余额查询接口 2
@@ -80,7 +82,7 @@ class Crm extends Api
      * @param string $cardId 卡 ID，为空则查询默认卡余额
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return QueryBalance[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ApiException
      */
     public function queryBalance(string $phone, string $cardId, string $openId): QueryBalance
     {
@@ -95,9 +97,11 @@ class Crm extends Api
             'cardId' => $cardId,
             'openId' => $openId,
         );
-
-        $response = $this->getHttpResponseJSON($this->uri . 'queryBalance.action', $options);
-        return new QueryBalance(json_decode($response, true));
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryBalance.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return new QueryBalance($response);
     }
 
     /**
@@ -105,6 +109,7 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function queryPoint(string $phone, string $openId): QueryPoint
     {
@@ -118,8 +123,11 @@ class Crm extends Api
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . 'queryPoint.action', $options);
-        return new QueryPoint(json_decode($response, true));
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryPoint.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return new QueryPoint($response);
     }
 
     /**
@@ -130,6 +138,7 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function editPoint(
         string $point,
@@ -150,8 +159,11 @@ class Crm extends Api
             'openId' => $openId,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . 'editPoint.action', $options);
-        return new EditPoint(json_decode($response, true));
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'editPoint.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return new EditPoint($response);
     }
 
     /**
@@ -159,6 +171,7 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $openId openId，手机号和openId 不能同时为空，手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function queryUserInfo(string $phone, string $openId): array
     {
@@ -172,12 +185,9 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserInfo.action', $options), true);
         if ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryUserInfo($row);
-            }
+            $data = new QueryUserInfo($response['data']);
             return $data;
         }
     }
@@ -185,6 +195,7 @@ class Crm extends Api
     /**
      * 查询商户所有卡 6
      * @return mixed
+     * @throws ApiException
      */
     public function queryAllCards(): array
     {
@@ -196,7 +207,7 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryAllCards.action', $options), true);
         if ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
             $data = [];
             foreach ($response['data'] as $row) {
@@ -214,6 +225,7 @@ class Crm extends Api
      * @param string $useState 使用状态, 00：未使用,01：已使用,02：冻结中
      * @param string $sortType 排序方式 00：根据过期时间倒序 01：根据新增时间倒序 默认 00
      * @return mixed
+     * @throws ApiException
      */
     public function queryUserCoupons(
         string $phone,
@@ -235,7 +247,7 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCoupons.action', $options), true);
         if ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
             $data = [];
             foreach ($response['data'] as $row) {
@@ -251,6 +263,7 @@ class Crm extends Api
      * @param string $openId 用户 openId，openId 16 和手机号不能同时为空，手机号为空时请传空串
      * @param string $userCouponId 用户优惠券 ID
      * @return mixed
+     * @throws ApiException
      */
     public function queryUserCouponDetail(string $phone, string $openId, string $userCouponId): array
     {
@@ -266,12 +279,9 @@ class Crm extends Api
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCouponDetail.action', $options),
             true);
         if ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryUserCouponDetail($row);
-            }
+            $data = new QueryUserCouponDetail($response['data']);
             return $data;
         }
     }
@@ -285,6 +295,7 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $openId 用户 openId，openId和手机号不能同时为空，手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function consumeUserCoupon(
         string $userCouponId,
@@ -293,7 +304,7 @@ class Crm extends Api
         string $termId,
         string $phone,
         string $openId
-    ): ConsumeUserCoupon {
+    ) {
         //phone +"|"+ mchntCd +"|" +userCouponId +"|"+ disAmt +"|"+ shopId +"|"+ termId +"|"+ salt 做 MD5 加密。
         $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $userCouponId . "|" . $disAmt . "|" . $shopId . "|" . $termId . "|" . $this->config['salt']);
         $options = array(
@@ -307,7 +318,10 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'consumeUserCoupon.action', $options), true);
-        return new ConsumeUserCoupon($response);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return $response;
     }
 
     /**
@@ -317,13 +331,14 @@ class Crm extends Api
      * @param string $phone 手机号
      * @param string $openId 用户 openId，openId和手机号不能同时为空，手机号为空时请传空串
      * @return mixed
+     * @throws ApiException
      */
     public function invalidUserCoupon(
         string $userCouponId,
         string $couponId,
         string $phone,
         string $openId
-    ): InvalidUserCoupon {
+    ) {
         //phone +"|"+ mchntCd +"|" +userCouponId +"|"+ couponId+"|"+ salt 做 MD5 加密。
         $key = md5($phone . "|" . $this->config['mchnt_cd'] . "|" . $userCouponId . "|" . $couponId . "|" . $this->config['salt']);
         $options = array(
@@ -335,7 +350,10 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'invalidUserCoupon.action', $options), true);
-        return new InvalidUserCoupon($response);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return $response;
     }
 
 
@@ -353,6 +371,7 @@ class Crm extends Api
      * @param string $addInf1 商户新增备用字段用户填写值 1
      * @param string $addInf2 商户新增备用字段用户填写值 2
      * @return mixed
+     * @throws ApiException
      */
     public function registerUserApi(
         string $pwd,
@@ -366,7 +385,7 @@ class Crm extends Api
         string $aliUserId,
         string $addInf1,
         string $addInf2
-    ): RegisterUserApi {
+    ) {
 //       mchntCd +"|"+ pwd+"|" +phone+"|"+ offlineCardNo+"|"+ salt做 MD5 加密。
         $key = md5($this->config['mchnt_cd'] . "|" . $pwd . "|" . $phone . "|" . $offlineCardNo . "|" . $this->config['salt']);
         $options = array(
@@ -385,7 +404,10 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'registerUserApi.action', $options), true);
-        return new RegisterUserApi($response);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return $response;
     }
 
 
@@ -395,6 +417,7 @@ class Crm extends Api
      * @param int $pageNum 当前页码,不填默认 1
      * @param int $pageSize 每页条数,不填默认 20
      * @return mixed
+     * @throws ApiException
      */
     public function queryMemPageListApi(string $shopId = '', int $pageNum = 1, int $pageSize = 20): array
     {
@@ -412,7 +435,7 @@ class Crm extends Api
         if (!isset($response['resultCode'])) {
             return [];
         } elseif ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
             $data = [];
             foreach ($response['data'] as $row) {
@@ -430,6 +453,7 @@ class Crm extends Api
      * @param string $experience 经验值
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ApiException
      */
     public function setMemLevelAndExperienceApi(string $openId, string $levelValue, string $experience)
     {
@@ -442,8 +466,12 @@ class Crm extends Api
             'experience' => $experience,
             'key' => $key
         );
-        $response = $this->getHttpResponseJSON($this->uri . 'setMemLevelAndExperienceApi.action', $options);
-        return json_decode($response, true);
+        $response = json_decode($this->getHttpResponseJSON($this->uri . 'setMemLevelAndExperienceApi.action', $options),
+            true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return $response;
     }
 
     /**
@@ -452,6 +480,7 @@ class Crm extends Api
      * @param string $sendObjType 发放对象类型：00:手机号; 01:openId; 02:实体卡号
      * @param string $sendObjListJson 发放对象列表 JSON：传入多个手机号 &openid&实体卡号，三选一 上限 500 条
      * @return mixed
+     * @throws ApiException
      */
     public function sendCoupon(string $couponId, string $sendObjType, string $sendObjListJson): array
     {
@@ -469,12 +498,9 @@ class Crm extends Api
         if (!isset($response['resultCode'])) {
             return [];
         } elseif ($response['resultCode'] != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new SendCoupon($row);
-            }
+            $data = new SendCoupon($response['data']);
             return $data;
         }
     }
@@ -484,6 +510,7 @@ class Crm extends Api
      * @param int $pageNum 当前页码，不填默认 1
      * @param int $pageSize 每页条数，不填默认 20
      * @return mixed
+     * @throws ApiException
      */
     public function queryMchntCouponListPage(int $pageNum = 1, int $pageSize = 20): array
     {
@@ -503,7 +530,7 @@ class Crm extends Api
         $totalCount = isset($response['totalCount']) ? $response['totalCount'] : null;
         $totalPages = isset($response['totalPages']) ? $response['totalPages'] : null;
         if ($respCode != '000000') {
-            return $response;
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
         } else {
             $data = [];
             foreach ($response['data'] as $row) {
@@ -529,10 +556,10 @@ class Crm extends Api
      * @param string $chargeAmt 充值金额（元）
      * @param string $freeAmt 赠送金额元），没有则传空串
      * @return mixed
+     * @throws ApiException
      */
     public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt): Recharge
     {
-        $method = 'recharge.action';
         //mchntCd+"|"+openId+"|"+shopId+"|"+chargeAmt+"|"+freeAmt+ "|"+salt 做 MD5 加密。
         $key = md5($this->config['mchnt_cd'] . "|" . $openId . "|" . $shopId . "|" . $chargeAmt . "|" . $freeAmt . "|" . $this->config['salt']);
         $options = array(
@@ -544,7 +571,10 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'recharge.action', $options), true);
-        return new Recharge($response);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
+        return $response;
 
     }
 
@@ -555,6 +585,7 @@ class Crm extends Api
      * @param string $termId 消费终端号
      * @param string $chargeAmt 消费金额（元
      * @return mixed
+     * @throws ApiException
      */
     public function consume(string $openId, string $termId, string $chargeAmt): Consume
     {
@@ -568,6 +599,9 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'consume.action', $options), true);
+        if ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
         return new Consume($response);
     }
 }

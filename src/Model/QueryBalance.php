@@ -10,16 +10,7 @@ namespace XinFox\Fuiou\Model;
  */
 class QueryBalance
 {
-
-    /**
-     * @var string  返回代码
-     */
-    private string $resultCode;
-
-    /**
-     * @var string 返回信息
-     */
-    private string $resultMsg;
+    
 
     /**
      * @var int  余额（分）
@@ -70,20 +61,5 @@ class QueryBalance
     {
         return $this->giveBalance;
     }
-
-    /**
-     * @return string
-     */
-    public function getResultCode()
-    {
-        return $this->resultCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultMsg()
-    {
-        return $this->resultMsg;
-    }
+    
 }

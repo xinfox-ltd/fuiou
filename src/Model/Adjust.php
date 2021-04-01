@@ -24,16 +24,7 @@ class Adjust
      * @var int 赠送账户余额（分）
      */
     private int $giveBalance;
-
-    /**
-     * @var string  返回代码
-     */
-    private string $resultCode;
-
-    /**
-     * @var string 返回信息
-     */
-    private string $resultMsg;
+    
 
     public function __construct(array $data)
     {
@@ -66,22 +57,6 @@ class Adjust
     public function getGiveBalance()
     {
         return $this->giveBalance;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultCode()
-    {
-        return $this->resultCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultMsg()
-    {
-        return $this->resultMsg;
     }
 
 }

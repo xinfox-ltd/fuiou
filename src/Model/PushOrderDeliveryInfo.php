@@ -10,15 +10,6 @@ namespace XinFox\Fuiou\Model;
  */
 class PushOrderDeliveryInfo
 {
-    /**
-     * @var string  返回码：0000 成功；其余失败
-     */
-    private string $status;
-
-    /**
-     * @var string 返回信息描述
-     */
-    private string $msg;
 
     /**
      * @var string 富友系统订单号
@@ -32,22 +23,6 @@ class PushOrderDeliveryInfo
                 $this->$key = $val;
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMsg()
-    {
-        return $this->msg;
     }
 
     /**
