@@ -41,7 +41,7 @@ class QueryMemPageListApi
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -49,7 +49,7 @@ class QueryMemPageListApi
     /**
      * @return string
      */
-    public function getOfflineCardNo()
+    public function getOfflineCardNo(): string
     {
         return $this->offlineCardNo;
     }
@@ -57,7 +57,7 @@ class QueryMemPageListApi
     /**
      * @return string
      */
-    public function getPoint()
+    public function getPoint(): string
     {
         return $this->point;
     }

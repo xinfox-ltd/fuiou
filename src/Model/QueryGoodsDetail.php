@@ -58,7 +58,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getGoodsId()
+    public function getGoodsId(): string
     {
         return $this->goodsId;
     }
@@ -66,7 +66,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getGoodsName()
+    public function getGoodsName(): string
     {
         return $this->goodsName;
     }
@@ -74,7 +74,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getPriced()
+    public function getPriced(): string
     {
         return $this->price;
     }
@@ -82,7 +82,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getDiscountPrice()
+    public function getDiscountPrice(): string
     {
         return $this->discountPrice;
     }
@@ -90,7 +90,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getMemberPrice()
+    public function getMemberPrice(): string
     {
         return $this->memberPrice;
     }
@@ -98,7 +98,7 @@ class QueryGoodsDetail
     /**
      * @return string
      */
-    public function getGroupId()
+    public function getGroupId(): string
     {
         return $this->groupId;
     }
@@ -106,7 +106,7 @@ class QueryGoodsDetail
     /**
      * @return array
      */
-    public function getGoodsSpecList()
+    public function getGoodsSpecList(): array
     {
         return $this->goodsSpecList;
     }

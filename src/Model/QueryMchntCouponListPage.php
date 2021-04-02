@@ -156,7 +156,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getCouponId()
+    public function getCouponId(): int
     {
         return $this->couponId;
     }
@@ -164,7 +164,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getMerchantCode()
+    public function getMerchantCode(): string
     {
         return $this->merchantCode;
     }
@@ -172,7 +172,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getCouponName()
+    public function getCouponName(): string
     {
         return $this->couponName;
     }
@@ -180,7 +180,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getCouponType()
+    public function getCouponType(): string
     {
         return $this->couponType;
     }
@@ -188,7 +188,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getExpDay()
+    public function getExpDay(): string
     {
         return $this->expDay;
     }
@@ -196,23 +196,23 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getCouponState()
+    public function getCouponState(): string
     {
         return $this->couponState;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponFee()
+    public function getCouponFee(): int
     {
         return $this->couponFee;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCreatePer()
+    public function getCreatePer(): int
     {
         return $this->createPer;
     }
@@ -220,7 +220,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getShareState()
+    public function getShareState(): string
     {
         return $this->shareState;
     }
@@ -228,7 +228,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getValidType()
+    public function getValidType(): string
     {
         return $this->validType;
     }
@@ -236,7 +236,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getEffTimeStr()
+    public function getEffTimeStr(): string
     {
         return $this->effTimeStr;
     }
@@ -244,7 +244,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getExpTimeStr()
+    public function getExpTimeStr(): string
     {
         return $this->expTimeStr;
     }
@@ -252,7 +252,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getUseLimitType()
+    public function getUseLimitType(): string
     {
         return $this->useLimitType;
     }
@@ -261,15 +261,15 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getFavbType()
+    public function getFavbType(): string
     {
         return $this->favbType;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDiscount()
+    public function getDiscount(): int
     {
         return $this->discount;
     }
@@ -277,7 +277,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getUseBeginTime()
+    public function getUseBeginTime(): string
     {
         return $this->useBeginTime;
     }
@@ -285,7 +285,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getUseEndTime()
+    public function getUseEndTime(): string
     {
         return $this->useEndTime;
     }
@@ -293,7 +293,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getWxCardId()
+    public function getWxCardId(): string
     {
         return $this->wxCardId;
     }
@@ -301,7 +301,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getWeekLimit()
+    public function getWeekLimit(): string
     {
         return $this->weekLimit;
     }
@@ -309,7 +309,7 @@ class QueryMchntCouponListPage
     /**
      * @return int
      */
-    public function getDisNum()
+    public function getDisNum(): int
     {
         return $this->disNum;
     }
@@ -317,7 +317,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getCouponMsgDes()
+    public function getCouponMsgDes(): string
     {
         return $this->couponMsgDes;
     }
@@ -325,7 +325,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getStockIds()
+    public function getStockIds(): string
     {
         return $this->stockId;
     }
@@ -333,7 +333,7 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getShopLimit()
+    public function getShopLimit(): string
     {
         return $this->shopLimit;
     }
@@ -341,15 +341,15 @@ class QueryMchntCouponListPage
     /**
      * @return string
      */
-    public function getGoodsLimit()
+    public function getGoodsLimit(): string
     {
         return $this->goodsLimit;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getEffTime()
+    public function getEffTime(): int
     {
         return $this->effTime;
     }
@@ -357,7 +357,7 @@ class QueryMchntCouponListPage
     /**
      * @return int
      */
-    public function getUpdTime()
+    public function getUpdTime(): int
     {
         return $this->updTime;
     }
@@ -365,7 +365,7 @@ class QueryMchntCouponListPage
     /**
      * @return int
      */
-    public function getCrtTime()
+    public function getCrtTime(): int
     {
         return $this->crtTime;
     }

@@ -74,7 +74,7 @@ class QueryOrderByOrderNo
     /**
      * @var string
      */
-    private  $userMemo;
+    private $userMemo;
 
     /**
      * @var string
@@ -199,7 +199,7 @@ class QueryOrderByOrderNo
     /**
      * @var
      */
-    private  $shopInfo;
+    private $shopInfo;
 
     /**
      * @var string
@@ -364,27 +364,27 @@ class QueryOrderByOrderNo
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getOrderNo()
+    public function getOrderNo(): int
     {
         return $this->orderNo;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getShopId()
+    public function getShopId(): int
     {
         return $this->shopId;
     }
@@ -393,7 +393,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getMchntCd()
+    public function getMchntCd(): string
     {
         return $this->mchntCd;
     }
@@ -402,7 +402,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getTmFuiouId()
+    public function getTmFuiouId(): string
     {
         return $this->tmFuiouId;
     }
@@ -411,7 +411,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getTermName()
+    public function getTermName(): string
     {
         return $this->termName;
     }
@@ -420,43 +420,43 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getOrderType()
+    public function getOrderType(): string
     {
         return $this->orderType;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getOrderAmt()
+    public function getOrderAmt(): int
     {
         return $this->orderAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getOrderDisAmt()
+    public function getOrderDisAmt(): int
     {
         return $this->orderDisAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPayAmt()
+    public function getPayAmt(): int
     {
         return $this->payAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getGuestsCount()
+    public function getGuestsCount(): int
     {
         return $this->guestsCount;
     }
@@ -465,7 +465,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getPaySsn()
+    public function getPaySsn(): string
     {
         return $this->paySsn;
     }
@@ -474,7 +474,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getUserMemo()
+    public function getUserMemo(): string
     {
         return $this->userMemo;
     }
@@ -483,16 +483,16 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getMealCode()
+    public function getMealCode(): string
     {
         return $this->mealCode;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getExpressAmt()
+    public function getExpressAmt(): int
     {
         return $this->expressAmt;
     }
@@ -501,52 +501,52 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getExpressState()
+    public function getExpressState(): string
     {
         return $this->expressState;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponId()
+    public function getCouponId(): int
     {
         return $this->couponId;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponRealId()
+    public function getCouponRealId(): int
     {
         return $this->couponRealId;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponAmt()
+    public function getCouponAmt(): int
     {
         return $this->couponAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getIntegralDeductionAmt()
+    public function getIntegralDeductionAmt(): int
     {
         return $this->integralDeductionAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getIntegral()
+    public function getIntegral(): int
     {
         return $this->integral;
     }
@@ -555,34 +555,34 @@ class QueryOrderByOrderNo
     /**
      * @return int
      */
-    public function getCashierDisAmt()
+    public function getCashierDisAmt(): int
     {
         return $this->cashierDisAmt;
     }
 
 
     /**
-     * @return string
+     * @return float
      */
-    public function getCashierDiscount()
+    public function getCashierDiscount(): float
     {
         return $this->cashierDiscount;
     }
 
 
     /**
-     * @return string
+     * @return float
      */
-    public function getCashReceivedAmt()
+    public function getCashReceivedAmt(): float
     {
         return $this->cashReceivedAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSingleGoodsDisAmt()
+    public function getSingleGoodsDisAmt(): int
     {
         return $this->singleGoodsDisAmt;
     }
@@ -591,52 +591,52 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getDiscountType()
+    public function getDiscountType(): string
     {
         return $this->discountType;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCrtTm()
+    public function getCrtTm(): int
     {
         return $this->crtTm;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPayTm()
+    public function getPayTm(): int
     {
         return $this->payTm;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getFinshTm()
+    public function getFinshTm(): int
     {
         return $this->finshTm;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRecUpdTm()
+    public function getRecUpdTm(): int
     {
         return $this->recUpdTm;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPayDeadlineTm()
+    public function getPayDeadlineTm(): int
     {
         return $this->payDeadlineTm;
     }
@@ -645,7 +645,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getFinshDate()
+    public function getFinshDate(): string
     {
         return $this->finshDate;
     }
@@ -654,7 +654,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getPayType()
+    public function getPayType(): string
     {
         return $this->payType;
     }
@@ -663,7 +663,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getOrderState()
+    public function getOrderState(): string
     {
         return $this->orderState;
     }
@@ -672,7 +672,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getOrderCancelReason()
+    public function getOrderCancelReason(): string
     {
         return $this->orderCancelReason;
     }
@@ -681,16 +681,16 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getCashierId()
+    public function getCashierId(): string
     {
         return $this->cashierId;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCashierConfirmTm()
+    public function getCashierConfirmTm(): int
     {
         return $this->cashierConfirmTm;
     }
@@ -708,7 +708,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getChannelType()
+    public function getChannelType(): string
     {
         return $this->channelType;
     }
@@ -717,7 +717,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -726,7 +726,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getAppOpenId()
+    public function getAppOpenId(): string
     {
         return $this->appOpenId;
     }
@@ -735,7 +735,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getMchntEpressCost()
+    public function getMchntEpressCost(): string
     {
         return $this->mchntEpressCost;
     }
@@ -744,7 +744,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getDelierTm()
+    public function getDelierTm(): string
     {
         return $this->delierTm;
     }
@@ -753,7 +753,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getMqttSendState()
+    public function getMqttSendState(): string
     {
         return $this->mqttSendState;
     }
@@ -762,7 +762,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getTableTermName()
+    public function getTableTermName(): string
     {
         return $this->tableTermName;
     }
@@ -771,7 +771,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getIsMembership()
+    public function getIsMembership(): string
     {
         return $this->isMembership;
     }
@@ -780,70 +780,70 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getThirdOrderNo()
+    public function getThirdOrderNo(): string
     {
         return $this->thirdOrderNo;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPlatHongBao()
+    public function getPlatHongBao(): int
     {
         return $this->platHongBao;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getThirdMchntIncom()
+    public function getThirdMchntIncom(): int
     {
         return $this->thirdMchntIncom;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getMemberPriceDisAmt()
+    public function getMemberPriceDisAmt(): int
     {
         return $this->memberPriceDisAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPackagePriceDisAmt()
+    public function getPackagePriceDisAmt(): int
     {
         return $this->packagePriceDisAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRefundTm()
+    public function getRefundTm(): int
     {
         return $this->refundTm;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRefundAmt()
+    public function getRefundAmt(): int
     {
         return $this->refundAmt;
     }
 
 
     /**
-     * @return string
+     * @return int
      */
-    public function getMealTm()
+    public function getMealTm(): int
     {
         return $this->mealTm;
     }
@@ -852,7 +852,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getOrderPayState()
+    public function getOrderPayState(): string
     {
         return $this->orderPayState;
     }
@@ -861,7 +861,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getCrtTmString()
+    public function getCrtTmString(): string
     {
         return $this->crtTmString;
     }
@@ -870,7 +870,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getPayTmString()
+    public function getPayTmString(): string
     {
         return $this->payTmString;
     }
@@ -879,7 +879,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getFinshTmString()
+    public function getFinshTmString(): string
     {
         return $this->finshTmString;
     }
@@ -888,7 +888,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getRecUpdTmString()
+    public function getRecUpdTmString(): string
     {
         return $this->recUpdTmString;
     }
@@ -897,7 +897,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getCashierConfirmTmString()
+    public function getCashierConfirmTmString(): string
     {
         return $this->cashierConfirmTmString;
     }
@@ -906,7 +906,7 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getDeliverStartTmString()
+    public function getDeliverStartTmString(): string
     {
         return $this->deliverStartTmString;
     }
@@ -915,43 +915,43 @@ class QueryOrderByOrderNo
     /**
      * @return string
      */
-    public function getPayDeadlineTmString()
+    public function getPayDeadlineTmString(): string
     {
         return $this->payDeadlineTmString;
     }
 
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getExpressOrder()
+    public function getExpressOrder(): bool
     {
         return $this->expressOrder;
     }
 
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getEatInOrder()
+    public function getEatInOrder(): bool
     {
         return $this->eatInOrder;
     }
 
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getCouponDiscount()
+    public function getCouponDiscount(): bool
     {
         return $this->couponDiscount;
     }
 
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getIntegralDiscount()
+    public function getIntegralDiscount(): bool
     {
         return $this->integralDiscount;
     }
@@ -960,7 +960,7 @@ class QueryOrderByOrderNo
     /**
      * @return array
      */
-    public function getOrderAddressInfo()
+    public function getOrderAddressInfo(): array
     {
         return $this->orderAddressInfo;
     }
@@ -969,7 +969,7 @@ class QueryOrderByOrderNo
     /**
      * @return array
      */
-    public function getDetailList()
+    public function getDetailList(): array
     {
         return $this->detailList;
     }

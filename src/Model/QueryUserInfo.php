@@ -98,7 +98,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getResultCode()
+    public function getResultCode(): string
     {
         return $this->resultCode;
     }
@@ -106,7 +106,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getResultMsg()
+    public function getResultMsg(): string
     {
         return $this->resultMsg;
     }
@@ -114,23 +114,23 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getUserName()
+    public function getUserName(): string
     {
         return $this->userName;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getExperience()
+    public function getExperience(): int
     {
         return $this->experience;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getLevelValue()
+    public function getLevelValue(): int
     {
         return $this->levelValue;
     }
@@ -138,7 +138,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getOpenId()
+    public function getOpenId(): string
     {
         return $this->openId;
     }
@@ -146,7 +146,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getSex()
+    public function getSex(): string
     {
         return $this->sex;
     }
@@ -154,7 +154,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getBirthday()
+    public function getBirthday(): string
     {
         return $this->birthday;
     }
@@ -162,7 +162,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
@@ -170,7 +170,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getProvince()
+    public function getProvince(): string
     {
         return $this->province;
     }
@@ -178,7 +178,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
@@ -186,7 +186,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getShoName()
+    public function getShoName(): string
     {
         return $this->shoName;
     }
@@ -194,7 +194,7 @@ class QueryUserInfo
     /**
      * @return string
      */
-    public function getRegistTime()
+    public function getRegistTime(): string
     {
         return $this->registTime;
     }
@@ -202,7 +202,7 @@ class QueryUserInfo
     /**
      * @return int
      */
-    public function getTotalConsumeAmt()
+    public function getTotalConsumeAmt(): int
     {
         return $this->totalConsumeAmt;
     }
@@ -210,7 +210,7 @@ class QueryUserInfo
     /**
      * @return int
      */
-    public function getTotalConsumeSum()
+    public function getTotalConsumeSum(): int
     {
         return $this->totalConsumeSum;
     }

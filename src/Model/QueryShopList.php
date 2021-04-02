@@ -53,7 +53,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getShopId()
+    public function getShopId(): string
     {
         return $this->shopId;
     }
@@ -61,7 +61,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getShopName()
+    public function getShopName(): string
     {
         return $this->shopName;
     }
@@ -69,7 +69,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getShopAddress()
+    public function getShopAddress(): string
     {
         return $this->shopAddress;
     }
@@ -77,7 +77,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getShopPhone()
+    public function getShopPhone(): string
     {
         return $this->shopPhone;
     }
@@ -85,7 +85,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getOpenHoursBegin()
+    public function getOpenHoursBegin(): string
     {
         return $this->openHoursBegin;
     }
@@ -93,7 +93,7 @@ class QueryShopList
     /**
      * @return string
      */
-    public function getOpenHoursEnd()
+    public function getOpenHoursEnd(): string
     {
         return $this->openHoursEnd;
     }

@@ -35,10 +35,8 @@ class Fuiou
             $this->config = $config;
 
         } else {
-
             throw new InvalidArgumentException();
         }
-
     }
 
     public function __get($name)

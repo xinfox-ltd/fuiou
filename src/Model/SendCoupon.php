@@ -30,9 +30,9 @@ class SendCoupon
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getTotolCount()
+    public function getTotolCount(): int
     {
         return $this->totolCount;
     }
@@ -40,9 +40,10 @@ class SendCoupon
     /**
      * @return array
      */
-    public function getUserCouponIdList()
+    public function getUserCouponIdList(): array
     {
         return $this->userCouponIdList;
     }
+
 
 }

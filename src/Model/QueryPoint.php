@@ -22,9 +22,9 @@ class QueryPoint
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPoint()
+    public function getPoint(): int
     {
         return $this->point;
     }

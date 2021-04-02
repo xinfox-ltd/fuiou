@@ -28,7 +28,7 @@ class OutSysShopBind
     /**
      * @return string
      */
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }

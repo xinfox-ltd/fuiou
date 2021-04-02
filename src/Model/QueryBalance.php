@@ -10,7 +10,7 @@ namespace XinFox\Fuiou\Model;
  */
 class QueryBalance
 {
-    
+
 
     /**
      * @var int  余额（分）
@@ -27,7 +27,7 @@ class QueryBalance
      */
     private int $giveBalance;
 
-    
+
     public function __construct(array $data)
     {
         foreach ($data as $key => $val) {
@@ -40,16 +40,16 @@ class QueryBalance
     /**
      * @return int
      */
-    public function getBalance()
+    public function getBalance(): int
     {
         return $this->balance;
     }
-    
+
 
     /**
      * @return int
      */
-    public function getTrdBalance()
+    public function getTrdBalance(): int
     {
         return $this->trdBalance;
     }
@@ -57,9 +57,9 @@ class QueryBalance
     /**
      * @return int
      */
-    public function getGiveBalance()
+    public function getGiveBalance(): int
     {
         return $this->giveBalance;
     }
-    
+
 }

@@ -10,7 +10,16 @@ namespace XinFox\Fuiou\Model;
  */
 class AddOrder
 {
-    
+
+    /**
+     * @var string
+     */
+    private string $status;
+
+    /**
+     * @var string
+     */
+    private string $msg;
 
     /**
      * @var  富友系统订单号
@@ -25,13 +34,29 @@ class AddOrder
             }
         }
     }
-    
+
     /**
      * @return string
      */
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMsg(): string
+    {
+        return $this->msg;
     }
 
 

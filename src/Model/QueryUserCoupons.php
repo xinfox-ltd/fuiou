@@ -168,9 +168,9 @@ class QueryUserCoupons
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getUserCouponId()
+    public function getUserCouponId(): int
     {
         return $this->userCouponId;
     }
@@ -178,7 +178,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getOpenId()
+    public function getOpenId(): string
     {
         return $this->openId;
     }
@@ -186,15 +186,15 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getMchntCd()
+    public function getMchntCd(): string
     {
         return $this->mchntCd;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponId()
+    public function getCouponId(): int
     {
         return $this->couponId;
     }
@@ -202,7 +202,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCouponState()
+    public function getCouponState(): string
     {
         return $this->couponState;
     }
@@ -210,7 +210,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCouponName()
+    public function getCouponName(): string
     {
         return $this->couponName;
     }
@@ -218,7 +218,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCouponType()
+    public function getCouponType(): string
     {
         return $this->couponType;
     }
@@ -226,39 +226,39 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getFavbType()
+    public function getFavbType(): string
     {
         return $this->favbType;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCreatePer()
+    public function getCreatePer(): int
     {
         return $this->createPer;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCouponFee()
+    public function getCouponFee(): int
     {
         return $this->couponFee;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDiscount()
+    public function getDiscount(): int
     {
         return $this->discount;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDisNum()
+    public function getDisNum(): int
     {
         return $this->disNum;
     }
@@ -266,15 +266,15 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCouponMsgDes()
+    public function getCouponMsgDes(): string
     {
         return $this->couponMsgDes;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCrtTime()
+    public function getCrtTime(): int
     {
         return $this->crtTime;
     }
@@ -282,7 +282,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCrtTimeStr()
+    public function getCrtTimeStr(): string
     {
         return $this->crtTimeStr;
     }
@@ -290,7 +290,7 @@ class QueryUserCoupons
     /**
      * @return int
      */
-    public function getUpdTime()
+    public function getUpdTime(): int
     {
         return $this->updTime;
     }
@@ -298,7 +298,7 @@ class QueryUserCoupons
     /**
      * @return int
      */
-    public function getEffTime()
+    public function getEffTime(): int
     {
         return $this->effTime;
     }
@@ -306,7 +306,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getEffTimeStr()
+    public function getEffTimeStr(): string
     {
         return $this->effTimeStr;
     }
@@ -314,7 +314,7 @@ class QueryUserCoupons
     /**
      * @return int
      */
-    public function getExpTime()
+    public function getExpTime(): int
     {
         return $this->expTime;
     }
@@ -322,7 +322,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getExpTimeStr()
+    public function getExpTimeStr(): string
     {
         return $this->expTimeStr;
     }
@@ -330,7 +330,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getUseLimitType()
+    public function getUseLimitType(): string
     {
         return $this->useLimitType;
     }
@@ -338,7 +338,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getWeekLimit()
+    public function getWeekLimit(): string
     {
         return $this->weekLimit;
     }
@@ -346,7 +346,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getUseBeginTime()
+    public function getUseBeginTime(): string
     {
         return $this->useBeginTime;
     }
@@ -354,7 +354,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getUseEndTime()
+    public function getUseEndTime(): string
     {
         return $this->useEndTime;
     }
@@ -362,7 +362,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getOrderNo()
+    public function getOrderNo(): string
     {
         return $this->orderNo;
     }
@@ -370,7 +370,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getCurDate()
+    public function getCurDate(): string
     {
         return $this->curDate;
     }
@@ -378,7 +378,7 @@ class QueryUserCoupons
     /**
      * @return int
      */
-    public function getOrderAmt()
+    public function getOrderAmt(): int
     {
         return $this->orderAmt;
     }
@@ -386,7 +386,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getWxUserCardCode()
+    public function getWxUserCardCode(): string
     {
         return $this->wxUserCardCode;
     }
@@ -394,7 +394,7 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getReceiveOpenId()
+    public function getReceiveOpenId(): string
     {
         return $this->receiveOpenId;
     }
@@ -402,8 +402,10 @@ class QueryUserCoupons
     /**
      * @return string
      */
-    public function getReceiveUserName()
+    public function getReceiveUserName(): string
     {
         return $this->receiveUserName;
     }
+
+
 }

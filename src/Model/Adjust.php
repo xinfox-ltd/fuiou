@@ -24,7 +24,7 @@ class Adjust
      * @var int 赠送账户余额（分）
      */
     private int $giveBalance;
-    
+
 
     public function __construct(array $data)
     {
@@ -38,7 +38,7 @@ class Adjust
     /**
      * @return int
      */
-    public function getBalance()
+    public function getBalance(): int
     {
         return $this->balance;
     }
@@ -46,7 +46,7 @@ class Adjust
     /**
      * @return int
      */
-    public function getTrdBalance()
+    public function getTrdBalance(): int
     {
         return $this->trdBalance;
     }
@@ -54,7 +54,7 @@ class Adjust
     /**
      * @return int
      */
-    public function getGiveBalance()
+    public function getGiveBalance(): int
     {
         return $this->giveBalance;
     }

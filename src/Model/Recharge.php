@@ -36,16 +36,15 @@ class Recharge
     /**
      * @return int
      */
-    public function getBalance()
+    public function getBalance(): int
     {
         return $this->balance;
     }
 
-
     /**
      * @return int
      */
-    public function getTrdBalance()
+    public function getTrdBalance(): int
     {
         return $this->trdBalance;
     }
@@ -53,8 +52,10 @@ class Recharge
     /**
      * @return int
      */
-    public function getGiveBalance()
+    public function getGiveBalance(): int
     {
         return $this->giveBalance;
     }
+
+
 }

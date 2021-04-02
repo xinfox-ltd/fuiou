@@ -7,20 +7,12 @@ namespace XinFox\Fuiou\Model;
 
 class QueryAllCards
 {
-    /**
-     * @var string  返回代码
-     */
-    private string $resultCode;
-
-    /**
-     * @var string 返回信息
-     */
-    private string $resultMsg;
 
     /**
      * @var string 卡 id
      */
     private string $cardId;
+
 
     /**
      * @var string 卡名称
@@ -40,23 +32,7 @@ class QueryAllCards
     /**
      * @return string
      */
-    public function getResultCode()
-    {
-        return $this->resultCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultMsg()
-    {
-        return $this->resultMsg;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCardId()
+    public function getCardId(): string
     {
         return $this->cardId;
     }
@@ -64,7 +40,7 @@ class QueryAllCards
     /**
      * @return string
      */
-    public function getCardName()
+    public function getCardName(): string
     {
         return $this->cardName;
     }
