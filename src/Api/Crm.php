@@ -71,9 +71,7 @@ class Crm extends Api
             'openId' => $openId
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'adjust.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return new Adjust($response);
     }
 
@@ -98,9 +96,7 @@ class Crm extends Api
             'openId' => $openId,
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryBalance.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return new QueryBalance($response);
     }
 
@@ -124,9 +120,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryPoint.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return new QueryPoint($response);
     }
 
@@ -160,9 +154,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'editPoint.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return new EditPoint($response);
     }
 
@@ -184,12 +176,9 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserInfo.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = new QueryUserInfo($response['data']);
-            return $data;
-        }
+        $this->throwApiException($response);
+        $data = new QueryUserInfo($response['data']);
+        return $data;
     }
 
     /**
@@ -206,15 +195,13 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryAllCards.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryAllCards($row);
-            }
-            return $data;
+        $this->throwApiException($response);
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryAllCards($row);
         }
+        return $data;
+
     }
 
     /**
@@ -246,15 +233,12 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCoupons.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryUserCoupons($row);
-            }
-            return $data;
+        $this->throwApiException($response);
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryUserCoupons($row);
         }
+        return $data;
     }
 
     /**
@@ -278,12 +262,8 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryUserCouponDetail.action', $options),
             true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = new QueryUserCouponDetail($response['data']);
-            return $data;
-        }
+        $this->throwApiException($response);
+        return new QueryUserCouponDetail($response['data']);
     }
 
     /**
@@ -318,9 +298,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'consumeUserCoupon.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return $response;
     }
 
@@ -350,9 +328,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'invalidUserCoupon.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return $response;
     }
 
@@ -404,9 +380,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'registerUserApi.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return $response;
     }
 
@@ -432,17 +406,13 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'queryMemPageListApi.action', $options),
             true);
-        if (!isset($response['resultCode'])) {
-            return [];
-        } elseif ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryMemPageListApi($row);
-            }
-            return $data;
+        $this->throwApiException($response);
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryMemPageListApi($row);
         }
+        return $data;
+
     }
 
 
@@ -468,9 +438,7 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'setMemLevelAndExperienceApi.action', $options),
             true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return $response;
     }
 
@@ -495,14 +463,9 @@ class Crm extends Api
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'sendCoupon.action', $options),
             true);
-        if (!isset($response['resultCode'])) {
-            return [];
-        } elseif ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = new SendCoupon($response['data']);
-            return $data;
-        }
+        $this->throwApiException($response);
+        $data = new SendCoupon($response['data']);
+        return $data;
     }
 
     /**
@@ -529,23 +492,20 @@ class Crm extends Api
         $pageSize = isset($response['pageSize']) ? $response['pageSize'] : null;
         $totalCount = isset($response['totalCount']) ? $response['totalCount'] : null;
         $totalPages = isset($response['totalPages']) ? $response['totalPages'] : null;
-        if ($respCode != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        } else {
-            $data = [];
-            foreach ($response['data'] as $row) {
-                $data[] = new QueryMchntCouponListPage($row);
-            }
-            return array(
-                'resultCode' => $respCode,
-                'resultMsg' => $resultMsg,
-                'pageNum' => $pageNum,
-                'pageSize' => $pageSize,
-                'totalCount' => $totalCount,
-                'totalPages' => $totalPages,
-                'data' => $data
-            );
+        $this->throwApiException($response);
+        $data = [];
+        foreach ($response['data'] as $row) {
+            $data[] = new QueryMchntCouponListPage($row);
         }
+        return array(
+            'resultCode' => $respCode,
+            'resultMsg' => $resultMsg,
+            'pageNum' => $pageNum,
+            'pageSize' => $pageSize,
+            'totalCount' => $totalCount,
+            'totalPages' => $totalPages,
+            'data' => $data
+        );
     }
 
 
@@ -571,9 +531,7 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'recharge.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return $response;
 
     }
@@ -599,9 +557,8 @@ class Crm extends Api
             'key' => $key
         );
         $response = json_decode($this->getHttpResponseJSON($this->uri . 'consume.action', $options), true);
-        if ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
+        $this->throwApiException($response);
         return new Consume($response);
     }
+    
 }

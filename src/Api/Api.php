@@ -5,12 +5,13 @@ namespace XinFox\Fuiou\Api;
 
 
 use GuzzleHttp\Client;
+use XinFox\Fuiou\Exceptions\ApiException;
 
 abstract class Api
 {
     protected Client $client;
     protected array $config;
- //测试：
+    //测试：
 //https://spht-test.fuioupay.com/api/queryBalance.action
 //生产：
 //https://sp-ht.fuioupay.com/api/queryBalance.action
@@ -53,6 +54,21 @@ abstract class Api
         $responseText = curl_exec($curl);
         curl_close($curl);
         return $responseText;
+    }
+
+
+    /**
+     * 抛异常
+     * @param $response
+     * @throws ApiException
+     */
+    protected function throwApiException($response)
+    {
+        if (!isset($response['resultCode'])) {
+            throw new ApiException('无数据返回');
+        } elseif ($response['resultCode'] != '000000') {
+            throw new ApiException($response['resultMsg'], $response['resultCode']);
+        }
     }
 
 }

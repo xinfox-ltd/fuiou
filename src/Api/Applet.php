@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
@@ -244,7 +245,7 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryGoodsDetail(string $goodsId, string $channelType)
+    public function queryGoodsDetail(string $goodsId, string $channelType): QueryGoodsDetail
     {
         $content = array(
             'goodsId' => $goodsId,
@@ -270,7 +271,7 @@ class Applet extends Api
         string $cancelReason,
         string $deliverName = '',
         string $deliverPhone = ''
-    ) {
+    ): PushOrderDeliveryInfo {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'deliveryState' => $deliveryState,
