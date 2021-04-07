@@ -350,17 +350,17 @@ class Crm extends Api
      * @throws ApiException
      */
     public function registerUserApi(
-        string $pwd,
-        string $phone,
-        string $offlineCardNo,
-        string $userName,
-        string $sex,
-        string $userBirth,
-        string $shopId,
-        string $openId,
-        string $aliUserId,
-        string $addInf1,
-        string $addInf2
+        string $pwd = '',
+        string $phone = '',
+        string $offlineCardNo = '',
+        string $userName = '',
+        string $sex = '',
+        string $userBirth = '',
+        string $shopId = '',
+        string $openId = '',
+        string $aliUserId = '',
+        string $addInf1 = '',
+        string $addInf2 = ''
     ) {
 //       mchntCd +"|"+ pwd+"|" +phone+"|"+ offlineCardNo+"|"+ salt做 MD5 加密。
         $key = md5($this->config['mchnt_cd'] . "|" . $pwd . "|" . $phone . "|" . $offlineCardNo . "|" . $this->config['salt']);
@@ -560,5 +560,5 @@ class Crm extends Api
         $this->throwApiException($response);
         return new Consume($response);
     }
-    
+
 }
