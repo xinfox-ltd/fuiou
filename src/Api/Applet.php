@@ -190,7 +190,7 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryOrderByOrderNo(string $orderNo): array
+    public function queryOrderByOrderNo(string $orderNo): QueryOrderByOrderNo
     {
         $content = array(
             'orderNo' => $orderNo,
