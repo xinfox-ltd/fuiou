@@ -19,7 +19,9 @@ use XinFox\Fuiou\Exceptions\InvalidArgumentException;
  */
 class Fuiou
 {
-    public array $config;
+    private array $config;
+
+    private bool $test = false;
 
     /**
      * Fuiou constructor.
@@ -28,28 +30,43 @@ class Fuiou
      */
     public function __construct(array $config)
     {
-        if (!empty($config)) {
-            if (empty($config['mchnt_cd']) || empty($config['app_key']) || empty($config['secret'])) {
-                throw new InvalidArgumentException('The mchnt_cd、app_key、secret must not be empty');
-            }
-            $this->config = $config;
-
-        } else {
-            throw new InvalidArgumentException();
+        if (empty($config['mchnt_cd']) || empty($config['app_key']) || empty($config['secret'])) {
+            throw new InvalidArgumentException('The mchnt_cd、app_key、secret must not be empty');
         }
+        $this->config = $config;
+    }
+
+    /**
+     * 启用测试环境
+     * @return $this
+     */
+    public function test(): Fuiou
+    {
+        $this->test = true;
+        return $this;
     }
 
     public function __get($name)
     {
         switch ($name) {
             case 'crm':
-                return new Crm($this->config);
+                return new Crm($this);
                 break;
             case 'applet':
-                return new Applet($this->config);
+                return new Applet($this);
                 break;
             default:
                 throw new \InvalidArgumentException();
         }
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    public function getTest(): bool
+    {
+        return $this->test;
     }
 }

@@ -7,12 +7,10 @@ declare(strict_types=1);
 require '../vendor/autoload.php';
 
 $config = [
-    'mchnt_cd' => '0006110F3733501',
-    'app_key' => '0006110F3733501',
+    'mchnt_cd' => '0006110F2731399',
+    'app_key' => '0006110F2731399',
     'secret' => '27e82212-be27-4e58-8cfa-e68c1dc2fd2b',
-    'salt' => 'qlb6n7vUGo3W0J9ysHrxFTSF3R9h9Aqd',
-    'host' => 'https://scte.fuioupay.com/callBack/open.action',
-    'shop_id' => 62709
+    'salt' => 'wIxXE4UhWc8ZA68QBIM5TgFuTlxFYMln',
 ];
 
 $fuiou = new \XinFox\Fuiou\Fuiou($config);
@@ -62,8 +60,9 @@ $str = '{
 }';
 
 $content = json_decode($str, true);
-$dddd = $fuiou->applet->pushOrderDeliveryInfo('70387ssssssss','1','','');
-echo '<pre>';
-print_r($dddd);
-echo '</pre>';
+$dddd = $fuiou->applet->queryGoodsList(60791);
+//$dddd = $fuiou->crm->sendCouponToPhone(32498, [17376006101]);
+//$dddd = $fuiou->crm->queryUserCouponsByPhone(17376006101);
+//$dddd = $fuiou->crm->invalidUserCouponByPhone(17376006101, 57019840);
+var_dump($dddd);
 exit();

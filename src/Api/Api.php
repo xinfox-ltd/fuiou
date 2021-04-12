@@ -6,11 +6,14 @@ namespace XinFox\Fuiou\Api;
 
 use GuzzleHttp\Client;
 use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Fuiou;
 
 abstract class Api
 {
     protected Client $client;
     protected array $config;
+
+    protected bool $test;
     //测试：
 //https://spht-test.fuioupay.com/api/queryBalance.action
 //生产：
@@ -22,12 +25,22 @@ abstract class Api
 //正式：
 //https://scte.fuioupay.com/callBack/open.action
     protected string $appletUrl = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
+    /**
+     * @var Fuiou
+     */
+    protected Fuiou $app;
 
-    public function __construct(array $config)
+    public function __construct(Fuiou $app)
     {
-        $this->config = $config;
+        $this->app = $app;
+        $this->config = $app->getConfig();
         $this->client = new Client();
+        $this->test = $app->getTest();
+    }
 
+    protected function getMchntCd(): string
+    {
+        return $this->config['mchnt_cd'];
     }
 
     /**
@@ -38,7 +51,7 @@ abstract class Api
      * return 远程输出的数据
      * @return mixed
      */
-    function getHttpResponseJSON(string $url, array $para)
+    function curl(string $url, array $para)
     {
         $json = json_encode($para);
         $curl = curl_init($url);
@@ -46,14 +59,18 @@ abstract class Api
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($curl, CURLOPT_POSTFIELDS, $json);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($json)
             )
         );
         $responseText = curl_exec($curl);
         curl_close($curl);
-        return $responseText;
+
+        return json_decode($responseText, true);
     }
 
 

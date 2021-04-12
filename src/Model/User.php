@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Model;
 
+use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Fuiou;
+
 /**
- * Class QueryUserInfo
+ * Class User
  * @package XinFox\Fuiou\Model
  */
-class QueryUserInfo
+class User
 {
-    /**
-     * @var string  返回代码
-     */
-    private string $resultCode;
-
-    /**
-     * @var string 返回信息
-     */
-    private string $resultMsg;
-
     /**
      * @var string 昵称
      */
@@ -86,8 +79,12 @@ class QueryUserInfo
     private int $totalConsumeSum;
 
 
-    public function __construct(array $data)
+    private Fuiou $app;
+
+
+    public function __construct(Fuiou $app, array $data)
     {
+        $this->app = $app;
         foreach ($data as $key => $val) {
             if (property_exists($this, $key)) {
                 $this->$key = $val;
@@ -96,19 +93,13 @@ class QueryUserInfo
     }
 
     /**
-     * @return string
+     * @param int $couponId
+     * @return array
+     * @throws ApiException
      */
-    public function getResultCode(): string
+    public function sendCoupon(int $couponId): array
     {
-        return $this->resultCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResultMsg(): string
-    {
-        return $this->resultMsg;
+        return $this->app->crm->sendCouponToOpenId($couponId, [$this->openId]);
     }
 
     /**
@@ -214,6 +205,4 @@ class QueryUserInfo
     {
         return $this->totalConsumeSum;
     }
-
-
 }

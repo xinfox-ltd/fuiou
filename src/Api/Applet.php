@@ -4,18 +4,7 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
-
 use XinFox\Fuiou\Exceptions\ApiException;
-use XinFox\Fuiou\Model\AddOrder;
-use XinFox\Fuiou\Model\OutSysShopBind;
-use XinFox\Fuiou\Model\OutSysShopUnBind;
-use XinFox\Fuiou\Model\PushOrderDeliveryInfo;
-use XinFox\Fuiou\Model\QueryGoodsDetail;
-use XinFox\Fuiou\Model\QueryGoodsList;
-use XinFox\Fuiou\Model\QueryOrderByOrderNo;
-use XinFox\Fuiou\Model\QueryShopList;
-use XinFox\Fuiou\Model\RefundOrder;
-use XinFox\Fuiou\Model\UpdateOrder;
 
 /**
  * 上海富有支付--SaaS第三方小程序接口
@@ -24,7 +13,6 @@ use XinFox\Fuiou\Model\UpdateOrder;
  */
 class Applet extends Api
 {
-
     /**
      * 下单接口
      * @param array $content
@@ -80,9 +68,9 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function addOrder(array $content): AddOrder
+    public function addOrder(array $content)
     {
-        return new AddOrder($this->post('addOrder', $content));
+        return $this->post('addOrder', $content);
     }
 
     /**
@@ -99,14 +87,14 @@ class Applet extends Api
         string $status,
         string $orderCancelReason = '',
         string $thirdOrderStatus = ''
-    ): UpdateOrder {
+    ) {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
             'thirdOrderStatus' => $thirdOrderStatus,
             'orderCancelReason' => $orderCancelReason,
         );
-        return new UpdateOrder($this->post('updateOrder', $content));
+        return $this->post('updateOrder', $content);
     }
 
     /**
@@ -129,7 +117,7 @@ class Applet extends Api
         string $refundType,
         float $partRefundAmt = 0,
         array $partRefundGoods = array()
-    ): RefundOrder {
+    ) {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
@@ -139,7 +127,7 @@ class Applet extends Api
             'refundType' => $refundType,
             'partRefundGoods' => $partRefundGoods,
         );
-        return new RefundOrder($this->post('refundOrder', $content));
+        return $this->post('refundOrder', $content);
     }
 
     /**
@@ -156,7 +144,7 @@ class Applet extends Api
         string $shopName,
         string $ownShopId,
         string $ownShopName
-    ): OutSysShopBind {
+    ) {
         $content = array(
             'shopId' => $shopId,
             'shopName' => $shopName,
@@ -164,7 +152,7 @@ class Applet extends Api
             'ownShopName' => $ownShopName,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return new OutSysShopBind($this->post('outSysShopBind', $content));
+        return $this->post('outSysShopBind', $content);
     }
 
     /**
@@ -174,14 +162,14 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function outSysShopUnBind(string $shopId, string $ownShopId): OutSysShopUnBind
+    public function outSysShopUnBind(string $shopId, string $ownShopId)
     {
         $content = array(
             'shopId' => $shopId,
             'ownShopId' => $ownShopId,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return new OutSysShopUnBind($this->post('outSysShopUnBind', $content));
+        return $this->post('outSysShopUnBind', $content);
     }
 
     /**
@@ -190,14 +178,13 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryOrderByOrderNo(string $orderNo): array
+    public function queryOrderByOrderNo(string $orderNo)
     {
         $content = array(
             'orderNo' => $orderNo,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        $response = $this->post('queryOrderByOrderNo', $content);
-        return new QueryOrderByOrderNo($response['data']);
+        return $this->post('queryOrderByOrderNo', $content);
     }
 
     /**
@@ -205,37 +192,27 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryShopList(): array
+    public function queryShopList()
     {
         $content = array(
             'mchntCd' => $this->config['mchnt_cd']
         );
-        $response = $this->post('queryShopList', $content);
-        $data = [];
-        foreach ($response['data'] as $row) {
-            $data[] = new QueryShopList($row);
-        }
-        return $data;
+        return $this->post('queryShopList', $content);
     }
 
     /**
      * 商品列表查询接口
-     * @param string $shopId 门店号
+     * @param int $shopId 门店号
      * @return mixed
      * @throws ApiException
      */
-    public function queryGoodsList(string $shopId): array
+    public function queryGoodsList(int $shopId)
     {
         $content = array(
-            'shopId' => $shopId
+            'shopId' => $shopId,
+            'mchntCd' => $this->getMchntCd()
         );
-        $response = $this->post('queryShopList', $content);
-
-        $data = [];
-        foreach ($response['data'] as $row) {
-            $data[] = new QueryGoodsList($row);
-        }
-        return $data;
+        return $this->post('queryGoodsList', $content);
     }
 
     /**
@@ -245,14 +222,14 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryGoodsDetail(string $goodsId, string $channelType): QueryGoodsDetail
+    public function queryGoodsDetail(string $goodsId, string $channelType)
     {
         $content = array(
             'goodsId' => $goodsId,
             'channelType' => $channelType,
             'mchntCd' => $this->config['mchnt_cd']
         );
-        return new QueryGoodsDetail($this->post('queryGoodsDetail', $content));
+        return $this->post('queryGoodsDetail', $content);
     }
 
     /**
@@ -271,7 +248,7 @@ class Applet extends Api
         string $cancelReason,
         string $deliverName = '',
         string $deliverPhone = ''
-    ): PushOrderDeliveryInfo {
+    ) {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'deliveryState' => $deliveryState,
@@ -279,7 +256,7 @@ class Applet extends Api
             'deliverName' => $deliverName,
             'deliverPhone' => $deliverPhone
         );
-        return new PushOrderDeliveryInfo($this->post('pushOrderDeliveryInfo', $content));
+        return $this->post('pushOrderDeliveryInfo', $content);
     }
 
 
@@ -306,13 +283,15 @@ class Applet extends Api
         $s = "{$this->config['app_key']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
         $sign = md5($s);
         $options['sign'] = $sign;
-        $response = json_decode($this->getHttpResponseJSON($this->appletUrl, $options), true);
-        $status = isset($response['status']) ? $response['status'] : null;
-        $msg = isset($response['msg']) ? $response['msg'] : null;
+
+        $response = $this->curl($this->appletUrl, $options);
+
+        $status = $response['status'] ?? null;
+        $msg = $response['msg'] ?? null;
         if ($status != '0000') {
             throw new ApiException($msg, $status);
         }
-        return $response;
+        return $response['data'];
     }
 
     /**
@@ -321,10 +300,8 @@ class Applet extends Api
      */
     private function getMillisecond()
     {
-
         list($t1, $t2) = explode(' ', microtime());
 
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
-
     }
 }
