@@ -356,7 +356,6 @@ class QueryOrderByOrderNo
     {
         foreach ($data as $key => $val) {
             if (property_exists($this, $key)) {
-                echo $key . PHP_EOL;
                 $this->$key = $val;
             }
         }

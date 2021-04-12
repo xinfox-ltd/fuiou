@@ -178,7 +178,7 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function queryOrderByOrderNo(string $orderNo)
+    public function queryOrderByOrderNo(string $orderNo): array
     {
         $content = array(
             'orderNo' => $orderNo,
@@ -189,14 +189,21 @@ class Applet extends Api
 
     /**
      * 门店列表查询接口
+     * @param string $insCd 订单号
      * @return mixed
      * @throws ApiException
      */
-    public function queryShopList()
+    public function queryShopList(string $insCd = ''): array
     {
-        $content = array(
-            'mchntCd' => $this->config['mchnt_cd']
-        );
+        if ($insCd) {
+            $content = array(
+                'insCd' => $insCd
+            );
+        } else {
+            $content = array(
+                'mchntCd' => $this->config['mchnt_cd']
+            );
+        }
         return $this->post('queryShopList', $content);
     }
 
