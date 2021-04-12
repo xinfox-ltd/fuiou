@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace XinFox\Fuiou\Model;
 
 
-class QueryMchntCouponListPage
+class Coupon
 {
     /**
      * @var int 优惠券模板 ID

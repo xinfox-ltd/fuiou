@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Exceptions;
 
-class InvalidArgumentException extends \Exception
+class InvalidArgumentException extends ApiException
 {
 
 }

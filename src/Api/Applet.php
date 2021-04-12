@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace XinFox\Fuiou\Api;
 
 use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Model\QueryGoodsDetail;
 
 /**
  * 上海富有支付--SaaS第三方小程序接口
@@ -98,8 +99,44 @@ class Applet extends Api
     }
 
     /**
+     * @param int $thirdOrderNo
+     * @param string $orderRefundReason
+     * @return mixed
+     * @throws ApiException
+     */
+    public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason)
+    {
+        return $this->refundOrder($thirdOrderNo, '99', '8', $orderRefundReason, 'all');
+    }
+
+    /**
+     * @param int $thirdOrderNo
+     * @param string $orderRefundReason
+     * @param float $partRefundAmt
+     * @param array $partRefundGoods
+     * @return mixed
+     * @throws ApiException
+     */
+    public function refundOrderOnPart(
+        int $thirdOrderNo,
+        string $orderRefundReason,
+        float $partRefundAmt,
+        array $partRefundGoods
+    ) {
+        return $this->refundOrder(
+            $thirdOrderNo,
+            '99',
+            '8',
+            $orderRefundReason,
+            'part',
+            $partRefundAmt,
+            $partRefundGoods
+        );
+    }
+
+    /**
      * 退款接口
-     * @param string $thirdOrderNo 三方订单号
+     * @param int $thirdOrderNo 三方订单号
      * @param string $status 订单状态 99 取消
      * @param string $thirdOrderStatus 快递状态 8:客户发起退款请求需收银机商户端确认。
      * @param string $orderRefundReason 订单取消原因（取消时必填）
@@ -109,8 +146,8 @@ class Applet extends Api
      * @return mixed
      * @throws ApiException
      */
-    public function refundOrder(
-        string $thirdOrderNo,
+    private function refundOrder(
+        int $thirdOrderNo,
         string $status,
         string $thirdOrderStatus,
         string $orderRefundReason,
@@ -157,12 +194,12 @@ class Applet extends Api
 
     /**
      * 门店解绑接口
-     * @param string $shopId 富友系统门店 id
-     * @param string $ownShopId 第三方门店 id
+     * @param int $shopId 富友系统门店 id
+     * @param int $ownShopId 第三方门店 id
      * @return mixed
      * @throws ApiException
      */
-    public function outSysShopUnBind(string $shopId, string $ownShopId)
+    public function outSysShopUnBind(int $shopId, int $ownShopId)
     {
         $content = array(
             'shopId' => $shopId,
@@ -223,13 +260,35 @@ class Applet extends Api
     }
 
     /**
+     * 查询小程序渠道商品详情
+     * @param int $goodsId
+     * @return mixed
+     * @throws ApiException
+     */
+    public function queryGoodsDetailByAppletChannel(int $goodsId)
+    {
+        return $this->queryGoodsDetail($goodsId, QueryGoodsDetail::CHANNEL_APPLET);
+    }
+
+    /**
+     * 查询收银机渠道商品详情
+     * @param int $goodsId
+     * @return mixed
+     * @throws ApiException
+     */
+    public function queryGoodsDetailByPOSChannel(int $goodsId)
+    {
+        return $this->queryGoodsDetail($goodsId, QueryGoodsDetail::CHANNEL_POS);
+    }
+
+    /**
      * 商品详情查询接口
-     * @param string $goodsId 商品号
+     * @param int $goodsId 商品号
      * @param string $channelType 渠道类型：00：扫码点餐，01:收银机
      * @return mixed
      * @throws ApiException
      */
-    public function queryGoodsDetail(string $goodsId, string $channelType)
+    private function queryGoodsDetail(int $goodsId, string $channelType)
     {
         $content = array(
             'goodsId' => $goodsId,

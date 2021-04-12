@@ -102,6 +102,11 @@ class User
         return $this->app->crm->sendCouponToOpenId($couponId, [$this->openId]);
     }
 
+    public function coupons(string $couponState = '', string $useState = '', string $sortType = UserCoupon::SORT_EXPIRE_TIME_DESC)
+    {
+        return $this->app->crm->queryUserCouponsByOpenId($this->openId, $couponState, $useState, $sortType);
+    }
+
     /**
      * @return string
      */

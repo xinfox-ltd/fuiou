@@ -5,8 +5,20 @@ declare(strict_types=1);
 namespace XinFox\Fuiou\Model;
 
 
-class QueryUserCoupons
+class UserCoupon
 {
+    const STATE_NORMAL = '00'; //正常
+    const STATE_EXPIRE = '01'; // 过期,
+    const STATE_DISCARD = '02'; //作废
+    const STATE_INVALID = '03'; //未生效
+    const STATE_GIVE = '04'; // 已转赠
+
+    const USE_STATE_UNUSED = '00'; // 未使用
+    const USE_STATE_USED = '01'; // 已使用
+    const USE_STATE_FREEZE = '02'; // 冻结中
+
+    const SORT_EXPIRE_TIME_DESC = '00'; // 根据过期时间倒序
+    const SORT_CREATE_TIME_DESC = '01'; // 根据新增时间倒序
 
     /**
      * @var int 用户优惠券 ID

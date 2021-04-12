@@ -10,6 +10,8 @@ namespace XinFox\Fuiou\Model;
  */
 class QueryGoodsDetail
 {
+    const CHANNEL_APPLET = '00'; // 扫码点餐（小程序）
+    const CHANNEL_POS = '01'; // 扫码点餐（小程序）
 
     /**
      * @var string 商品 ID

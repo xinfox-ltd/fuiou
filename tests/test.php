@@ -63,6 +63,9 @@ $content = json_decode($str, true);
 $dddd = $fuiou->applet->queryGoodsList(60791);
 //$dddd = $fuiou->crm->sendCouponToPhone(32498, [17376006101]);
 //$dddd = $fuiou->crm->queryUserCouponsByPhone(17376006101);
-//$dddd = $fuiou->crm->invalidUserCouponByPhone(17376006101, 57019840);
+$dddd = $fuiou->applet->queryGoodsList(60791);
+var_dump($dddd);
+$dddd = $fuiou->applet->queryGoodsDetailByAppletChannel(676018684);
+
 var_dump($dddd);
 exit();
