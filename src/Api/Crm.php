@@ -740,7 +740,7 @@ class Crm extends Api
      * 分页查询商户可用优惠券列表接口 15
      * @param int $pageNum 当前页码，不填默认 1
      * @param int $pageSize 每页条数，不填默认 20
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function queryMchntCouponListPage(int $pageNum = 1, int $pageSize = 20): array
@@ -760,7 +760,7 @@ class Crm extends Api
      * @param string $shopId 门店 id
      * @param string $chargeAmt 充值金额（元）
      * @param string $freeAmt 赠送金额元），没有则传空串
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt): array
@@ -784,10 +784,10 @@ class Crm extends Api
      * @param string $openId 用户微信openId
      * @param string $termId 消费终端号
      * @param string $chargeAmt 消费金额（元
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function consume(string $openId, string $termId, string $chargeAmt)
+    public function consume(string $openId, string $termId, string $chargeAmt): array
     {
         //mchntCd+"|"+openId+"|"+termId+"|"+consumeAmt+"|"+salt 做 MD5加密。
         return $this->request(
@@ -805,10 +805,10 @@ class Crm extends Api
      * @param string $action
      * @param array $params
      * @param $signParams
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    protected function request(string $action, array $params = [], $signParams = [])
+    protected function request(string $action, array $params = [], $signParams = []): array
     {
         $params['mchntCd'] = $this->getMchntCd();
         if (is_array($signParams)) {

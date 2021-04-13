@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace XinFox\Fuiou\Model;
 
 use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 use XinFox\Fuiou\Fuiou;
 
 /**
@@ -102,8 +103,19 @@ class User
         return $this->app->crm->sendCouponToOpenId($couponId, [$this->openId]);
     }
 
-    public function coupons(string $couponState = '', string $useState = '', string $sortType = UserCoupon::SORT_EXPIRE_TIME_DESC)
-    {
+    /**
+     * @param string $couponState
+     * @param string $useState
+     * @param string $sortType
+     * @return array
+     * @throws ApiException
+     * @throws InvalidArgumentException
+     */
+    public function coupons(
+        string $couponState = '',
+        string $useState = '',
+        string $sortType = UserCoupon::SORT_EXPIRE_TIME_DESC
+    ): array {
         return $this->app->crm->queryUserCouponsByOpenId($this->openId, $couponState, $useState, $sortType);
     }
 

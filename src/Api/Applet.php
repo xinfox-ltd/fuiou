@@ -66,10 +66,10 @@ class Applet extends Api
      *    ],
      *
      * }
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function addOrder(array $content)
+    public function addOrder(array $content): array
     {
         return $this->post('addOrder', $content);
     }
@@ -80,7 +80,7 @@ class Applet extends Api
      * @param string $status 订单状态 01 已创建02 已支付待商户接单03 已接单待配送 04 配送中 05 已收货待评价06 已评价 00 订单已取消 99 订单线下退款中
      * @param string $orderCancelReason 快递状态 0 处理 1:待快递员接单 2:快递员已接单待取货 3:快递员配送中 4:已完成 5:已取消 9:快递异常'
      * @param string $thirdOrderStatus 订单取消原因（取消时必填）
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function updateOrder(
@@ -88,7 +88,7 @@ class Applet extends Api
         string $status,
         string $orderCancelReason = '',
         string $thirdOrderStatus = ''
-    ) {
+    ): array {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => $status,
@@ -101,12 +101,12 @@ class Applet extends Api
     /**
      * @param int $thirdOrderNo
      * @param string $orderRefundReason
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason)
+    public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason): array
     {
-        return $this->refundOrder($thirdOrderNo, '99', '8', $orderRefundReason, 'all');
+        return $this->refundOrder($thirdOrderNo, $orderRefundReason, 'all');
     }
 
     /**
@@ -114,7 +114,7 @@ class Applet extends Api
      * @param string $orderRefundReason
      * @param float $partRefundAmt
      * @param array $partRefundGoods
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function refundOrderOnPart(
@@ -122,11 +122,9 @@ class Applet extends Api
         string $orderRefundReason,
         float $partRefundAmt,
         array $partRefundGoods
-    ) {
+    ): array {
         return $this->refundOrder(
             $thirdOrderNo,
-            '99',
-            '8',
             $orderRefundReason,
             'part',
             $partRefundAmt,
@@ -137,28 +135,24 @@ class Applet extends Api
     /**
      * 退款接口
      * @param int $thirdOrderNo 三方订单号
-     * @param string $status 订单状态 99 取消
-     * @param string $thirdOrderStatus 快递状态 8:客户发起退款请求需收银机商户端确认。
      * @param string $orderRefundReason 订单取消原因（取消时必填）
      * @param string $refundType 是 all （全额退款），part（部分退款）
      * @param float $partRefundAmt 部分退款金额
      * @param array $partRefundGoods 部分退款商品名
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     private function refundOrder(
         int $thirdOrderNo,
-        string $status,
-        string $thirdOrderStatus,
         string $orderRefundReason,
         string $refundType,
         float $partRefundAmt = 0,
         array $partRefundGoods = array()
-    ) {
+    ): array {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
-            'status' => $status,
-            'thirdOrderStatus' => $thirdOrderStatus,
+            'status' => '99',
+            'thirdOrderStatus' => '8',
             'partRefundAmt' => $partRefundAmt,
             'orderRefundReason' => $orderRefundReason,
             'refundType' => $refundType,
@@ -173,7 +167,7 @@ class Applet extends Api
      * @param string $shopName 富友系统门店名
      * @param string $ownShopId 第三方门店 id
      * @param string $ownShopName 第三方门店名字
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function outSysShopBind(
@@ -181,7 +175,7 @@ class Applet extends Api
         string $shopName,
         string $ownShopId,
         string $ownShopName
-    ) {
+    ): array {
         $content = array(
             'shopId' => $shopId,
             'shopName' => $shopName,
@@ -196,10 +190,10 @@ class Applet extends Api
      * 门店解绑接口
      * @param int $shopId 富友系统门店 id
      * @param int $ownShopId 第三方门店 id
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function outSysShopUnBind(int $shopId, int $ownShopId)
+    public function outSysShopUnBind(int $shopId, int $ownShopId): array
     {
         $content = array(
             'shopId' => $shopId,
@@ -212,7 +206,7 @@ class Applet extends Api
     /**
      * 订单查询接口
      * @param string $orderNo 订单号
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function queryOrderByOrderNo(string $orderNo): array
@@ -227,7 +221,7 @@ class Applet extends Api
     /**
      * 门店列表查询接口
      * @param string $insCd 订单号
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function queryShopList(string $insCd = ''): array
@@ -247,10 +241,10 @@ class Applet extends Api
     /**
      * 商品列表查询接口
      * @param int $shopId 门店号
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function queryGoodsList(int $shopId)
+    public function queryGoodsList(int $shopId): array
     {
         $content = array(
             'shopId' => $shopId,
@@ -262,10 +256,10 @@ class Applet extends Api
     /**
      * 查询小程序渠道商品详情
      * @param int $goodsId
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function queryGoodsDetailByAppletChannel(int $goodsId)
+    public function queryGoodsDetailByAppletChannel(int $goodsId): array
     {
         return $this->queryGoodsDetail($goodsId, QueryGoodsDetail::CHANNEL_APPLET);
     }
@@ -273,10 +267,10 @@ class Applet extends Api
     /**
      * 查询收银机渠道商品详情
      * @param int $goodsId
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function queryGoodsDetailByPOSChannel(int $goodsId)
+    public function queryGoodsDetailByPOSChannel(int $goodsId): array
     {
         return $this->queryGoodsDetail($goodsId, QueryGoodsDetail::CHANNEL_POS);
     }
@@ -285,10 +279,10 @@ class Applet extends Api
      * 商品详情查询接口
      * @param int $goodsId 商品号
      * @param string $channelType 渠道类型：00：扫码点餐，01:收银机
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    private function queryGoodsDetail(int $goodsId, string $channelType)
+    private function queryGoodsDetail(int $goodsId, string $channelType): array
     {
         $content = array(
             'goodsId' => $goodsId,
@@ -305,7 +299,7 @@ class Applet extends Api
      * @param string $cancelReason 快递取消时，必填
      * @param string $deliverName 快递员姓名
      * @param string $deliverPhone 快递员电话
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
     public function pushOrderDeliveryInfo(
@@ -314,7 +308,7 @@ class Applet extends Api
         string $cancelReason,
         string $deliverName = '',
         string $deliverPhone = ''
-    ) {
+    ): array {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'deliveryState' => $deliveryState,
@@ -330,10 +324,10 @@ class Applet extends Api
      * 公共调用接口函数
      * @param string $actionName 接口名称
      * @param array $content 协议参数 注：转义 json 结构
-     * @return mixed
+     * @return array
      * @throws ApiException
      */
-    public function post(string $actionName, array $content)
+    public function post(string $actionName, array $content): array
     {
         //String sign = Md5Util.get32MD5(appKey + actionName + secret + timestamp +(StringUtil.isNullOrBlank(content) ?"" : content))
         $timestamp = $this->getMillisecond();
