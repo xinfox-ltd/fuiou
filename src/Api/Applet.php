@@ -66,10 +66,10 @@ class Applet extends Api
      *    ],
      *
      * }
-     * @return array
+     * @return string
      * @throws ApiException
      */
-    public function addOrder(array $content): array
+    public function addOrder(array $content): string
     {
         return $this->post('addOrder', $content);
     }
@@ -323,28 +323,23 @@ class Applet extends Api
     /**
      * 公共调用接口函数
      * @param string $actionName 接口名称
-     * @param array $content 协议参数 注：转义 json 结构
-     * @return array
+     * @param array $params 协议参数 注：转义 json 结构
+     * @return array|mixed
      * @throws ApiException
      */
-    public function post(string $actionName, array $content): array
+    public function post(string $actionName, array $params)
     {
-        //String sign = Md5Util.get32MD5(appKey + actionName + secret + timestamp +(StringUtil.isNullOrBlank(content) ?"" : content))
-        $timestamp = $this->getMillisecond();
-        $options = array(
+        $timestamp = $this->getMicrotime();
+        $data = array(
             'timestamp' => $timestamp,
             'secret' => $this->config['secret'],
-            'content' => $content,
+            'content' => $params,
             'appKey' => $this->config['app_key'],
             'actionName' => $actionName,
         );
-        ksort($content);
-        $content = json_encode($content, JSON_UNESCAPED_UNICODE);
-        $s = "{$this->config['app_key']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
-        $sign = md5($s);
-        $options['sign'] = $sign;
+        $data['sign'] = $this->sign($actionName, $timestamp, $params);
 
-        $response = $this->curl($this->appletUrl, $options);
+        $response = $this->curl($this->appletUrl, $data);
 
         $status = $response['status'] ?? null;
         $msg = $response['msg'] ?? null;
@@ -355,10 +350,27 @@ class Applet extends Api
     }
 
     /**
+     * //String sign = Md5Util.get32MD5(appKey + actionName + secret + timestamp +(StringUtil.isNullOrBlank(content) ?"" : content))
+     * @param $actionName
+     * @param $timestamp
+     * @param array $params
+     * @return string
+     */
+    private function sign($actionName, $timestamp, array $params): string
+    {
+        ksort($params);
+
+        $content = json_encode($params, JSON_UNESCAPED_UNICODE);
+        $string = "{$this->config['app_key']}{$actionName}{$this->config['secret']}{$timestamp}{$content}";
+
+        return md5($string);
+    }
+
+    /**
      * 获取13位时间戳
      * @return float
      */
-    private function getMillisecond()
+    private function getMicroTime(): float
     {
         list($t1, $t2) = explode(' ', microtime());
 

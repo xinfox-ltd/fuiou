@@ -47,13 +47,13 @@ abstract class Api
      * 远程获取数据，POST模式
      * 注意：
      * @param string $url 指定URL完整路径地址
-     * @param array $para 请求的数据
+     * @param array $data 请求的数据
      * return 远程输出的数据
      * @return mixed
      */
-    function curl(string $url, array $para)
+    function curl(string $url, array $data)
     {
-        $json = json_encode($para);
+        $json = json_encode($data);
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
