@@ -66,10 +66,10 @@ class Applet extends Api
      *    ],
      *
      * }
-     * @return string
+     * @return mixed
      * @throws ApiException
      */
-    public function addOrder(array $content): string
+    public function addOrder(array $content)
     {
         return $this->post('addOrder', $content);
     }
