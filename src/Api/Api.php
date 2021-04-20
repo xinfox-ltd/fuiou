@@ -1,8 +1,6 @@
 <?php
 
-
 namespace XinFox\Fuiou\Api;
-
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -12,20 +10,11 @@ use XinFox\Fuiou\Fuiou;
 abstract class Api
 {
     protected Client $client;
+
     protected array $config;
 
     protected bool $test;
-    //测试：
-//https://spht-test.fuioupay.com/api/queryBalance.action
-//生产：
-//https://sp-ht.fuioupay.com/api/queryBalance.action
-    protected string $uri = "https://sp-ht.fuioupay.com/api/";  //crm接口连接
 
-//测试：
-//https://scantoeattest.fuiou.com/callBack/open.action
-//正式：
-//https://scte.fuioupay.com/callBack/open.action
-    protected string $appletUrl = 'https://scte.fuioupay.com/callBack/open.action';//SaaS第三方小程序接口
     /**
      * @var Fuiou
      */
@@ -69,20 +58,4 @@ abstract class Api
 
         return json_decode($bodyContent, true);
     }
-
-
-    /**
-     * 抛异常
-     * @param $response
-     * @throws ApiException
-     */
-    protected function throwApiException($response)
-    {
-        if (!isset($response['resultCode'])) {
-            throw new ApiException('无数据返回');
-        } elseif ($response['resultCode'] != '000000') {
-            throw new ApiException($response['resultMsg'], $response['resultCode']);
-        }
-    }
-
 }

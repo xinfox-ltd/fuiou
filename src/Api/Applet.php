@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace XinFox\Fuiou\Api;
 
 use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Model;
 use XinFox\Fuiou\Model\QueryGoodsDetail;
+use XinFox\Fuiou\Model\ShopTable;
 
 /**
  * 上海富有支付--SaaS第三方小程序接口
@@ -333,7 +335,7 @@ class Applet extends Api
      */
     public function queryShopAreaInfoList(int $shopId): array
     {
-        return $this->post('queryShopAreaInfoList', ['shopId' => $shopId]);
+        return $this->post('queryShopAreaInfoList', ['shopId' => $shopId, 'mchntCd' => $this->config['mchnt_cd']]);
     }
 
     /**
@@ -349,15 +351,22 @@ class Applet extends Api
      * @param int $shopId
      * @param int|null $areaId
      * @param int|null $tabState
-     * @return array
+     * @return ShopTable[]
      * @throws \XinFox\Fuiou\Exceptions\ApiException
      */
-    public function queryShopTabInfoList(int $shopId, ?int $areaId = null, ?int $tabState = null): array
+    public function queryShopTabInfoList(int $shopId, $areaId = null, $tabState = null): array
     {
-        return $this->post(
+        $rows = $this->post(
             'queryShopTabInfoList',
-            ['shopId' => $shopId, 'areaId' => $areaId, 'tabState' => $tabState]
+            ['shopId' => $shopId, 'mchntCd' => $this->config['mchnt_cd'], 'areaId' => $areaId, 'tabState' => $tabState]
         );
+
+        $data = [];
+        foreach ($rows as $row) {
+            $data[] = new ShopTable($row);
+        }
+
+        return $data;
     }
 
     /**
@@ -379,7 +388,7 @@ class Applet extends Api
         );
         $data['sign'] = $this->sign($actionName, $timestamp, $params);
 
-        $response = $this->curl($this->appletUrl, $data);
+        $response = $this->curl($this->getApiHost(), $data);
 
         $status = $response['status'] ?? null;
         $msg = $response['msg'] ?? null;
@@ -415,5 +424,10 @@ class Applet extends Api
         list($t1, $t2) = explode(' ', microtime());
 
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
+    }
+
+    private function getApiHost(): string
+    {
+        return $this->test === false ? 'https://scte.fuioupay.com/callBack/open.action' : 'https://scantoeattest.fuiou.com/callBack/open.action';
     }
 }

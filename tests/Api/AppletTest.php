@@ -61,7 +61,7 @@ class AppletTest extends TestCase
      */
     public function testQueryShopAreaInfoList(Fuiou $fuiou)
     {
-        $array = $fuiou->applet->queryGoodsList(607910);
+        $array = $fuiou->applet->queryShopAreaInfoList(60791);
 
         $this->assertIsArray($array);
     }
@@ -85,7 +85,7 @@ class AppletTest extends TestCase
      */
     public function testQueryShopTabInfoList(Fuiou $fuiou)
     {
-        $result = $fuiou->applet->queryShopAreaInfoList(60791);
+        $result = $fuiou->applet->queryShopTabInfoList(60791);
         $this->assertIsArray($result);
     }
 
