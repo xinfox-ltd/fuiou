@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Model;
 
+use XinFox\Fuiou\Model;
 
-class UserCoupon
+class UserCoupon extends Model
 {
     const STATE_NORMAL = '00'; //正常
     const STATE_EXPIRE = '01'; // 过期,

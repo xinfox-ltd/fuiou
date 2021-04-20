@@ -7,80 +7,81 @@ namespace XinFox\Fuiou\Model;
 use XinFox\Fuiou\Exceptions\ApiException;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 use XinFox\Fuiou\Fuiou;
+use XinFox\Fuiou\Model;
 
 /**
  * Class User
  * @package XinFox\Fuiou\Model
  */
-class User
+class User extends Model
 {
     /**
      * @var string 昵称
      */
-    private string $userName;
+    protected string $userName;
 
     /**
      * @var int 经验值
      */
-    private int $experience;
+    protected int $experience;
 
     /**
      * @var int 等级
      */
-    private int $levelValue;
+    protected int $levelValue;
 
     /**
      * @var string 微信 openId
      */
-    private string $openId;
+    protected string $openId;
 
     /**
      * @var string 性别：1 男性，2 女性，0 未知
      */
-    private string $sex;
+    protected string $sex;
 
     /**
      * @var string 生日
      */
-    private string $birthday;
+    protected string $birthday;
 
     /**
      * @var string 国家
      */
-    private string $country;
+    protected string $country;
 
     /**
      * @var string 省份
      */
-    private string $province;
+    protected string $province;
 
     /**
      * @var string 城市
      */
-    private string $city;
+    protected string $city;
 
     /**
      * @var string 会员发展门店
      */
-    private string $shoName;
+    protected string $shoName;
 
     /**
      * @var string 注册时间
      */
-    private string $registTime;
+    protected string $registTime;
 
     /**
      * @var int 消费总金额（分）
      */
-    private int $totalConsumeAmt;
+    protected int $totalConsumeAmt;
 
     /**
      * @var int 消费总笔数
      */
-    private int $totalConsumeSum;
+    protected int $totalConsumeSum;
 
 
-    private Fuiou $app;
+    protected Fuiou $app;
 
 
     public function __construct(Fuiou $app, array $data)

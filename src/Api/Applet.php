@@ -319,6 +319,46 @@ class Applet extends Api
         return $this->post('pushOrderDeliveryInfo', $content);
     }
 
+    /**
+     * 桌台区域信息查询接口
+     *
+     * 返回对象
+     * areaId String 区域 id
+     * areaName String 区域名称
+     * tableNum String 桌台数量
+     *
+     * @param int $shopId
+     * @return array
+     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     */
+    public function queryShopAreaInfoList(int $shopId): array
+    {
+        return $this->post('queryShopAreaInfoList', ['shopId' => $shopId]);
+    }
+
+    /**
+     * 桌台信息查询接口
+     *
+     * 返回数据对象
+     * seatNum Integer 座位数
+     * areaName String 所在区域名称
+     * tableNum Integer 桌台数量
+     * tableState String 状态 5
+     * tableId String 桌台 ID
+     *
+     * @param int $shopId
+     * @param int|null $areaId
+     * @param int|null $tabState
+     * @return array
+     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     */
+    public function queryShopTabInfoList(int $shopId, ?int $areaId = null, ?int $tabState = null): array
+    {
+        return $this->post(
+            'queryShopTabInfoList',
+            ['shopId' => $shopId, 'areaId' => $areaId, 'tabState' => $tabState]
+        );
+    }
 
     /**
      * 公共调用接口函数
