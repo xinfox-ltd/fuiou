@@ -73,7 +73,11 @@ class Applet extends Api
      */
     public function addOrder(array $content)
     {
-        return $this->post('addOrder', $content);
+        $orderNo = $this->post('addOrder', $content);
+        if ($orderNo === null) {
+            throw new ApiException('订单已存在');
+        }
+        return $orderNo;
     }
 
     /**
@@ -393,7 +397,7 @@ class Applet extends Api
         $status = $response['status'] ?? null;
         $msg = $response['msg'] ?? null;
         if ($status != '0000') {
-            throw new ApiException($msg, $status);
+            throw new ApiException($msg, (int)$status);
         }
         return $response['data'];
     }

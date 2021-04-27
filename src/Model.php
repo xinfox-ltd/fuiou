@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou;
 
+use XinFox\Fuiou\Exceptions\InvalidArgumentException;
+
 class Model implements \ArrayAccess
 {
     protected array $data = [];
@@ -32,7 +34,7 @@ class Model implements \ArrayAccess
             return $this->data[$offset];
         }
 
-        return '';
+        return null;
     }
 
     public function offsetSet($offset, $value)
