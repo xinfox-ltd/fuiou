@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou;
 
-use XinFox\Fuiou\Exceptions\InvalidArgumentException;
-
-class Model implements \ArrayAccess
+class Entity implements \ArrayAccess
 {
     protected array $data = [];
 

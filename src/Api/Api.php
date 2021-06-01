@@ -4,7 +4,7 @@ namespace XinFox\Fuiou\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Exceptions\FuiouException;
 use XinFox\Fuiou\Fuiou;
 
 abstract class Api
@@ -40,7 +40,7 @@ abstract class Api
      * @param array $data 请求的数据
      * return 远程输出的数据
      * @return mixed
-     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     * @throws \XinFox\Fuiou\Exceptions\FuiouException
      */
     function curl(string $url, array $data)
     {
@@ -48,12 +48,12 @@ abstract class Api
         try {
             $response = $client->post($url, ['json' => $data]);
         } catch (GuzzleException $exception) {
-            throw new ApiException('网络异常-'.$exception->getMessage());
+            throw new FuiouException('网络异常-'.$exception->getMessage());
         }
         $bodyContent = $response->getBody()->getContents();
 
         if (empty($bodyContent)) {
-            throw new ApiException('接口返回空');
+            throw new FuiouException('接口返回空');
         }
 
         return json_decode($bodyContent, true);

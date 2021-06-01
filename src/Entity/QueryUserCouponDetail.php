@@ -2,24 +2,11 @@
 
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
-use XinFox\Fuiou\Model;
 
-class UserCoupon extends Model
+class QueryUserCouponDetail
 {
-    const STATE_NORMAL = '00'; //正常
-    const STATE_EXPIRE = '01'; // 过期,
-    const STATE_DISCARD = '02'; //作废
-    const STATE_INVALID = '03'; //未生效
-    const STATE_GIVE = '04'; // 已转赠
-
-    const USE_STATE_UNUSED = '00'; // 未使用
-    const USE_STATE_USED = '01'; // 已使用
-    const USE_STATE_FREEZE = '02'; // 冻结中
-
-    const SORT_EXPIRE_TIME_DESC = '00'; // 根据过期时间倒序
-    const SORT_CREATE_TIME_DESC = '01'; // 根据新增时间倒序
 
     /**
      * @var int 用户优惠券 ID
@@ -45,6 +32,11 @@ class UserCoupon extends Model
      * @var string 优惠券状态, 00:正常,01:过期,02:作废,03:未生效,04:已转赠
      */
     private string $couponState;
+
+    /**
+     * @var string 使用状态, 00：未使用，01：已使用
+     */
+    private string $useState;
 
     /**
      * @var string 优惠券名称
@@ -90,6 +82,7 @@ class UserCoupon extends Model
      * @var int 创建时间,时间戳
      */
     private int $crtTime;
+
 
     /**
      * @var string 创建时间 , 格 式 yyyy-MM-dd HH:mm:ss
@@ -171,6 +164,17 @@ class UserCoupon extends Model
      */
     private string $receiveUserName;
 
+    /**
+     * @var array  优惠券门店关系
+     */
+    private array $couponTermRelateList;
+
+    /**
+     * @var array 优惠券商品关系
+     */
+    private array $couponGoodsRelateList;
+
+
     public function __construct(array $data)
     {
         foreach ($data as $key => $val) {
@@ -218,6 +222,14 @@ class UserCoupon extends Model
     public function getCouponState(): string
     {
         return $this->couponState;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUseState(): string
+    {
+        return $this->useState;
     }
 
     /**
@@ -420,5 +432,21 @@ class UserCoupon extends Model
         return $this->receiveUserName;
     }
 
+    /**
+     * @return array
+     */
+    public function getCouponTermRelateList(): array
+    {
+        return $this->couponTermRelateList;
+    }
 
+    /**
+     * @return array
+     */
+    public function getCouponGoodsRelateList(): array
+    {
+        return $this->couponGoodsRelateList;
+    }
+
+ 
 }

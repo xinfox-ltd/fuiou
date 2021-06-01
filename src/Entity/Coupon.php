@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
-use XinFox\Fuiou\Model;
+use XinFox\Fuiou\Entity;
 
-class Coupon extends Model
+class Coupon extends Entity
 {
     /**
      * @var int 优惠券模板 ID

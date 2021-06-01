@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
-use XinFox\Fuiou\Exceptions\ApiException;
-use XinFox\Fuiou\Model;
-use XinFox\Fuiou\Model\QueryGoodsDetail;
-use XinFox\Fuiou\Model\ShopTable;
+use XinFox\Fuiou\Exceptions\FuiouException;
+use XinFox\Fuiou\Entity;
+use XinFox\Fuiou\Entity\QueryGoodsDetail;
+use XinFox\Fuiou\Entity\ShopTable;
 
 /**
  * 上海富有支付--SaaS第三方小程序接口
@@ -69,13 +69,13 @@ class Applet extends Api
      *
      * }
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function addOrder(array $content)
     {
         $orderNo = $this->post('addOrder', $content);
         if ($orderNo === null) {
-            throw new ApiException('订单已存在');
+            throw new FuiouException('订单已存在');
         }
         return $orderNo;
     }
@@ -87,7 +87,7 @@ class Applet extends Api
      * @param string $orderCancelReason 快递状态 0 处理 1:待快递员接单 2:快递员已接单待取货 3:快递员配送中 4:已完成 5:已取消 9:快递异常'
      * @param string $thirdOrderStatus 订单取消原因（取消时必填）
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function updateOrder(
         string $thirdOrderNo,
@@ -108,7 +108,7 @@ class Applet extends Api
      * @param int $thirdOrderNo
      * @param string $orderRefundReason
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason): array
     {
@@ -121,7 +121,7 @@ class Applet extends Api
      * @param float $partRefundAmt
      * @param array $partRefundGoods
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function refundOrderOnPart(
         int $thirdOrderNo,
@@ -146,7 +146,7 @@ class Applet extends Api
      * @param float $partRefundAmt 部分退款金额
      * @param array $partRefundGoods 部分退款商品名
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function refundOrder(
         int $thirdOrderNo,
@@ -174,7 +174,7 @@ class Applet extends Api
      * @param string $ownShopId 第三方门店 id
      * @param string $ownShopName 第三方门店名字
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function outSysShopBind(
         string $shopId,
@@ -197,7 +197,7 @@ class Applet extends Api
      * @param int $shopId 富友系统门店 id
      * @param int $ownShopId 第三方门店 id
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function outSysShopUnBind(int $shopId, int $ownShopId): array
     {
@@ -213,7 +213,7 @@ class Applet extends Api
      * 订单查询接口
      * @param string $orderNo 订单号
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryOrderByOrderNo(string $orderNo): array
     {
@@ -228,19 +228,15 @@ class Applet extends Api
      * 门店列表查询接口
      * @param string $insCd 订单号
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryShopList(string $insCd = ''): array
     {
+        $content = ['mchntCd' => $this->config['mchnt_cd']];
         if ($insCd) {
-            $content = array(
-                'insCd' => $insCd
-            );
-        } else {
-            $content = array(
-                'mchntCd' => $this->config['mchnt_cd']
-            );
+            $content = ['insCd' => $insCd];
         }
+
         return $this->post('queryShopList', $content);
     }
 
@@ -248,7 +244,7 @@ class Applet extends Api
      * 商品列表查询接口
      * @param int $shopId 门店号
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryGoodsList(int $shopId): array
     {
@@ -263,7 +259,7 @@ class Applet extends Api
      * 查询小程序渠道商品详情
      * @param int $goodsId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryGoodsDetailByAppletChannel(int $goodsId): array
     {
@@ -274,7 +270,7 @@ class Applet extends Api
      * 查询收银机渠道商品详情
      * @param int $goodsId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryGoodsDetailByPOSChannel(int $goodsId): array
     {
@@ -286,7 +282,7 @@ class Applet extends Api
      * @param int $goodsId 商品号
      * @param string $channelType 渠道类型：00：扫码点餐，01:收银机
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function queryGoodsDetail(int $goodsId, string $channelType): array
     {
@@ -306,7 +302,7 @@ class Applet extends Api
      * @param string $deliverName 快递员姓名
      * @param string $deliverPhone 快递员电话
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function pushOrderDeliveryInfo(
         string $thirdOrderNo,
@@ -335,7 +331,7 @@ class Applet extends Api
      *
      * @param int $shopId
      * @return array
-     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     * @throws \XinFox\Fuiou\Exceptions\FuiouException
      */
     public function queryShopAreaInfoList(int $shopId): array
     {
@@ -356,7 +352,7 @@ class Applet extends Api
      * @param mixed|null $areaId
      * @param mixed|null $tabState
      * @return ShopTable[]
-     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     * @throws \XinFox\Fuiou\Exceptions\FuiouException
      */
     public function queryShopTabInfoList(int $shopId, $areaId = null, $tabState = null): array
     {
@@ -378,7 +374,7 @@ class Applet extends Api
      * @param string $actionName 接口名称
      * @param array $params 协议参数 注：转义 json 结构
      * @return array|mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function post(string $actionName, array $params)
     {
@@ -402,7 +398,7 @@ class Applet extends Api
         $status = $response['status'] ?? null;
         $msg = $response['msg'] ?? null;
         if ($status != '0000') {
-            throw new ApiException($msg, (int)$status);
+            throw new FuiouException($msg, (int)$status);
         }
         return $response['data'];
     }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
 /**
  * Class QueryOrderByOrderNo
- * @package XinFox\Fuiou\Model
+ * @package XinFox\Fuiou\Entity
  */
 class QueryOrderByOrderNo
 {

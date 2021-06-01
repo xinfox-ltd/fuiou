@@ -5,11 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
-use XinFox\Fuiou\Model;
+use XinFox\Fuiou\Entity;
 
-class ShopTable extends Model
+class ShopTable extends Entity
 {
     /**
      * @return int

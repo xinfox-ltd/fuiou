@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
-use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Exceptions\FuiouException;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 use XinFox\Fuiou\Fuiou;
-use XinFox\Fuiou\Model;
+use XinFox\Fuiou\Entity;
 
 /**
  * Class User
- * @package XinFox\Fuiou\Model
+ * @package XinFox\Fuiou\Entity
  */
-class User extends Model
+class User extends Entity
 {
     /**
      * @var string 昵称
@@ -80,24 +80,12 @@ class User extends Model
      */
     protected int $totalConsumeSum;
 
-
     protected Fuiou $app;
-
-
-    public function __construct(Fuiou $app, array $data)
-    {
-        $this->app = $app;
-        foreach ($data as $key => $val) {
-            if (property_exists($this, $key)) {
-                $this->$key = $val;
-            }
-        }
-    }
 
     /**
      * @param int $couponId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function sendCoupon(int $couponId): array
     {
@@ -109,7 +97,7 @@ class User extends Model
      * @param string $useState
      * @param string $sortType
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function coupons(

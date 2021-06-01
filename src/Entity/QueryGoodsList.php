@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace XinFox\Fuiou\Model;
+namespace XinFox\Fuiou\Entity;
 
 /**
  * Class QueryGoodsList
- * @package XinFox\Fuiou\Model
+ * @package XinFox\Fuiou\Entity
  */
 class QueryGoodsList
 {

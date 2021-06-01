@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace XinFox\Fuiou\Api;
 
-use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Exceptions\FuiouException;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
-use XinFox\Fuiou\Model\User;
+use XinFox\Fuiou\Entity\User;
 
 /**
  * 上海富有支付--CRM接口
@@ -28,7 +28,7 @@ class Crm extends Api
      * @param string $adjustType 调账类型：01 主账户；02 子账户，默认为01
      * @param string $cardId 卡 ID，为空则对默认卡进行调账
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function adjustByPhone(
         int $phone,
@@ -52,7 +52,7 @@ class Crm extends Api
      * @param string $adjustType 调账类型：01 主账户；02 子账户，默认为01
      * @param string $cardId 卡 ID，为空则对默认卡进行调账
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function adjustByOpenId(
         string $openId,
@@ -77,7 +77,7 @@ class Crm extends Api
      * @param string|null $adjustType 调账类型：01 主账户；02 子账户，默认为01
      * @param string|null $cardId 卡 ID，为空则对默认卡进行调账
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function adjust(
         $adjustAmt,
@@ -111,7 +111,7 @@ class Crm extends Api
      * @param int $phone
      * @param $cardId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryBalanceByPhone(int $phone, $cardId = ''): array
     {
@@ -123,7 +123,7 @@ class Crm extends Api
      * @param string $openId
      * @param $cardId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryBalanceByOpenId(string $openId, $cardId = ''): array
     {
@@ -135,7 +135,7 @@ class Crm extends Api
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @param string $cardId 卡 ID，为空则查询默认卡余额
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function queryBalance($phone, string $openId = '', string $cardId = ''): array
     {
@@ -156,7 +156,7 @@ class Crm extends Api
      * 通过手机号查询积分
      * @param int $phone
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryPointByPhone(int $phone): array
     {
@@ -167,7 +167,7 @@ class Crm extends Api
      * 通过openid查询积分
      * @param string $openId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryPointByOpenId(string $openId): array
     {
@@ -179,7 +179,7 @@ class Crm extends Api
      * @param mixed $phone 手机号
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function queryPoint($phone = '', string $openId = ''): array
     {
@@ -202,7 +202,7 @@ class Crm extends Api
      * @param int $oldPoint 原积分数
      * @param string $operator 操作人
      * @return array|mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function editPointByPhone(
         int $phone,
@@ -220,7 +220,7 @@ class Crm extends Api
      * @param int $oldPoint 原积分数
      * @param string $operator 操作人
      * @return array|mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function editPointByOpenId(
         string $openId,
@@ -239,7 +239,7 @@ class Crm extends Api
      * @param mixed $phone 手机号
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function editPoint(
         int $point,
@@ -266,7 +266,7 @@ class Crm extends Api
     /**
      * @param int $phone
      * @return User
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     public function queryUserInfoByPhone(int $phone): User
     {
@@ -276,7 +276,7 @@ class Crm extends Api
     /**
      * @param string $openId
      * @return User
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function queryUserInfoByOpenId(string $openId): User
@@ -289,7 +289,7 @@ class Crm extends Api
      * @param mixed $phone 手机号
      * @param string $openId openId，手机号和openId 不能同时为空，手机号为空时请传空串
      * @return User
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     public function queryUserInfo($phone = '', $openId = ''): User
     {
@@ -315,7 +315,7 @@ class Crm extends Api
     /**
      * 查询商户所有卡 6
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryAllCards(): array
     {
@@ -329,7 +329,7 @@ class Crm extends Api
      * @param string $useState
      * @param string $sortType
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function queryUserCouponsByPhone(
@@ -348,7 +348,7 @@ class Crm extends Api
      * @param string $useState
      * @param string $sortType
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function queryUserCouponsByOpenId(
@@ -368,7 +368,7 @@ class Crm extends Api
      * @param string $useState 使用状态, 00：未使用,01：已使用,02：冻结中
      * @param string $sortType 排序方式 00：根据过期时间倒序 01：根据新增时间倒序 默认 00
      * @return mixed
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     private function queryUserCoupons(
         $phone = '',
@@ -399,7 +399,7 @@ class Crm extends Api
      * @param int $phone
      * @param $userCouponId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryUserCouponDetailByPhone(int $phone, $userCouponId): array
     {
@@ -411,7 +411,7 @@ class Crm extends Api
      * @param string $openId
      * @param $userCouponId
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryUserCouponDetailByOpenId(string $openId, $userCouponId): array
     {
@@ -424,7 +424,7 @@ class Crm extends Api
      * @param string $openId 用户 openId，openId 16 和手机号不能同时为空，手机号为空时请传空串
      * @param mixed $userCouponId 用户优惠券 ID
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     private function queryUserCouponDetail($phone, string $openId, $userCouponId): array
     {
@@ -448,7 +448,7 @@ class Crm extends Api
      * @param int $disAmt 抵扣金额,单位：分
      * @param int $shopId 消费门店编号
      * @param string $termId 富友终端号
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function consumeUserCouponByPhone(
@@ -468,7 +468,7 @@ class Crm extends Api
      * @param int $disAmt 抵扣金额,单位：分
      * @param int $shopId 消费门店编号
      * @param string $termId 富友终端号
-     * @throws ApiException
+     * @throws FuiouException
      * @throws InvalidArgumentException
      */
     public function consumeUserCouponByOpenId(
@@ -490,7 +490,7 @@ class Crm extends Api
      * @param mixed $phone 手机号
      * @param string $openId 用户 openId，openId和手机号不能同时为空，手机号为空时请传空串
      * @return void
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     private function consumeUserCoupon(
         int $userCouponId,
@@ -527,7 +527,7 @@ class Crm extends Api
      * @param string $userCouponId
      * @param string $couponId
      * @return void
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     public function invalidUserCouponByPhone(int $phone, string $userCouponId, string $couponId)
     {
@@ -540,7 +540,7 @@ class Crm extends Api
      * @param string $userCouponId
      * @param string $couponId
      * @return void
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     public function invalidUserCouponByOpenId(string $openId, string $userCouponId, string $couponId)
     {
@@ -554,7 +554,7 @@ class Crm extends Api
      * @param mixed $phone 手机号
      * @param string $openId 用户 openId，openId和手机号不能同时为空，手机号为空时请传空串
      * @return void
-     * @throws ApiException|InvalidArgumentException
+     * @throws FuiouException|InvalidArgumentException
      */
     private function invalidUserCoupon(
         string $userCouponId,
@@ -596,7 +596,7 @@ class Crm extends Api
      * @param string $addInf1 商户新增备用字段用户填写值 1
      * @param string $addInf2 商户新增备用字段用户填写值 2
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function registerUserApi(
         int $shopId,
@@ -638,7 +638,7 @@ class Crm extends Api
      * @param int $pageNum 当前页码,不填默认 1
      * @param int $pageSize 每页条数,不填默认 20
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryMemPageListApi($shopId = '', int $pageNum = 1, int $pageSize = 20): array
     {
@@ -662,7 +662,7 @@ class Crm extends Api
      * @param string $levelValue 等级值
      * @param string $experience 经验值
      * @return void
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function setMemLevelAndExperienceApi(string $openId, string $levelValue, string $experience)
     {
@@ -682,7 +682,7 @@ class Crm extends Api
      * @param int $couponId
      * @param array $phones
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function sendCouponToPhone(int $couponId, array $phones): array
     {
@@ -694,7 +694,7 @@ class Crm extends Api
      * @param int $couponId
      * @param array $openIds
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function sendCouponToOpenId(int $couponId, array $openIds): array
     {
@@ -706,7 +706,7 @@ class Crm extends Api
      * @param int $couponId
      * @param array $cards
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function sendCouponToCard(int $couponId, array $cards): array
     {
@@ -719,7 +719,7 @@ class Crm extends Api
      * @param string $sendObjType 发放对象类型：00:手机号; 01:openId; 02:实体卡号
      * @param array $sendObjListJson 发放对象列表：传入多个手机号 &openid&实体卡号，三选一 上限 500 条
      * @return mixed
-     * @throws ApiException
+     * @throws FuiouException
      */
     protected function sendCoupon(int $couponId, string $sendObjType, array $sendObjListJson): array
     {
@@ -741,7 +741,7 @@ class Crm extends Api
      * @param int $pageNum 当前页码，不填默认 1
      * @param int $pageSize 每页条数，不填默认 20
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function queryMchntCouponListPage(int $pageNum = 1, int $pageSize = 20): array
     {
@@ -761,7 +761,7 @@ class Crm extends Api
      * @param string $chargeAmt 充值金额（元）
      * @param string $freeAmt 赠送金额元），没有则传空串
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt): array
     {
@@ -785,7 +785,7 @@ class Crm extends Api
      * @param string $termId 消费终端号
      * @param string $chargeAmt 消费金额（元
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     public function consume(string $openId, string $termId, string $chargeAmt): array
     {
@@ -806,7 +806,7 @@ class Crm extends Api
      * @param array $params
      * @param $signParams
      * @return array
-     * @throws ApiException
+     * @throws FuiouException
      */
     protected function request(string $action, array $params = [], $signParams = []): array
     {
@@ -819,14 +819,14 @@ class Crm extends Api
 
         $response = $this->curl($this->getApiHost() . $action, $params);
         if (empty($response)) {
-            throw new ApiException('无数据返回');
+            throw new FuiouException('无数据返回');
         }
 
         $responseCode = $response['resultCode'] ?? $response['respCode'];
         if (!$responseCode) {
-            throw new ApiException('无数据返回');
+            throw new FuiouException('无数据返回');
         } elseif ($responseCode != '000000') {
-            throw new ApiException($response['resultMsg'] ?? $response['respDesc'], (int)$responseCode);
+            throw new FuiouException($response['resultMsg'] ?? $response['respDesc'], (int)$responseCode);
         }
 
         return $response;

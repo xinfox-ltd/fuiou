@@ -46,17 +46,18 @@ class Fuiou
         return $this;
     }
 
+    /**
+     * @throws \XinFox\Fuiou\Exceptions\InvalidArgumentException
+     */
     public function __get($name)
     {
         switch ($name) {
             case 'crm':
                 return new Crm($this);
-                break;
             case 'applet':
                 return new Applet($this);
-                break;
             default:
-                throw new \InvalidArgumentException();
+                throw new InvalidArgumentException();
         }
     }
 
