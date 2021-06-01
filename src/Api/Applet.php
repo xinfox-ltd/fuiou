@@ -353,8 +353,8 @@ class Applet extends Api
      * tableId String 桌台 ID
      *
      * @param int $shopId
-     * @param int|null $areaId
-     * @param int|null $tabState
+     * @param mixed|null $areaId
+     * @param mixed|null $tabState
      * @return ShopTable[]
      * @throws \XinFox\Fuiou\Exceptions\ApiException
      */
@@ -382,6 +382,11 @@ class Applet extends Api
      */
     public function post(string $actionName, array $params)
     {
+        foreach ($params as $key => $val) {
+            if ($val === null) {
+                unset($params[$key]);
+            }
+        }
         $timestamp = $this->getMicrotime();
         $data = array(
             'timestamp' => $timestamp,
