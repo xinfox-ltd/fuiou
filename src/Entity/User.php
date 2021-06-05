@@ -82,6 +82,12 @@ class User extends Entity
 
     protected Fuiou $app;
 
+    public function __construct(Fuiou $app, array $data)
+    {
+        parent::__construct($data);
+        $this->app = $app;
+    }
+
     /**
      * @param int $couponId
      * @return array
