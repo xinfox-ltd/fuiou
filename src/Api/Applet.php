@@ -403,6 +403,40 @@ class Applet extends Api
         return $response['data'];
     }
 
+
+    /**
+     * @param string $appid 小程序appid
+     * @param string $openid 微信openid
+     * @param float $total 支付金额
+     * @param string $notifyUrl 回调地址
+     * @param string $payNo 支付编号
+     * @param string $payType 支付类型 小程序: js_pay  公众号: let_pay
+     * @return array 支付信息˚
+     * @throws FuiouException
+     */
+    public function pay(
+        string $appid,
+        string $openid,
+        float  $total,
+        string $notifyUrl,
+        string $payNo,
+        string $payType = 'js_pay') : array
+    {
+        // TODO 放置配置文件
+        $baseUrl  = 'http://pay.beejian.com/index';
+        $prefixNo = '1434';
+        $payNo = $prefixNo . $payNo;
+
+        $url = "{$baseUrl}/{$payType}?total={$total}&mchnt_order_no={$payNo}&mchnt_cd={$this->config['mchnt_cd']}&notify_url={$notifyUrl}&sub_openid={$openid}&sub_appid={$appid}";
+        $res = json_decode(file_get_contents($url), true);
+
+        if ($res['status'] != 1){
+            throw new FuiouException($res['info']);
+        }
+
+        return $res;
+    }
+
     /**
      * //String sign = Md5Util.get32MD5(appKey + actionName + secret + timestamp +(StringUtil.isNullOrBlank(content) ?"" : content))
      * @param $actionName
@@ -435,4 +469,6 @@ class Applet extends Api
     {
         return $this->test === false ? 'https://scte.fuioupay.com/callBack/open.action' : 'https://scantoeattest.fuiou.com/callBack/open.action';
     }
+
+
 }
