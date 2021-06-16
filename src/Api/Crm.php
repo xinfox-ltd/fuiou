@@ -37,7 +37,7 @@ class Crm extends Api
         string $cardNo = '',
         string $adjustPwd = '',
         string $adjustType = '01',
-        $cardId = ''
+        string $cardId = ''
     ) {
         return $this->adjust($adjustAmt, $operator, $phone, '', $cardNo, $adjustPwd, $adjustType, $cardId);
     }
@@ -61,7 +61,7 @@ class Crm extends Api
         string $cardNo = '',
         string $adjustPwd = '',
         string $adjustType = '01',
-        $cardId = ''
+        string $cardId = ''
     ) {
         return $this->adjust($adjustAmt, $operator, '', $openId, $cardNo, $adjustPwd, $adjustType, $cardId);
     }
@@ -87,7 +87,7 @@ class Crm extends Api
         string $cardNo = '',
         string $adjustPwd = '',
         string $adjustType = '',
-        $cardId = ''
+        string $cardId = ''
     ) {
 //        mchntCd+"|"+phone+"|"+cardNo+"|"+adjustPwd+"|"+adjustAmt +"|"+salt 做 MD5 加密。
         return $this->request(
@@ -121,16 +121,17 @@ class Crm extends Api
     /**
      * 通过openid查询余额
      * @param string $openId
-     * @param $cardId
+     * @param string $cardId
      * @return array
      * @throws FuiouException
      */
-    public function queryBalanceByOpenId(string $openId, $cardId = ''): array
+    public function queryBalanceByOpenId(string $openId, string $cardId = ''): array
     {
         return $this->queryBalance('', $openId, $cardId);
     }
 
-    /** 余额查询接口 2
+    /**
+     * 余额查询接口 2
      * @param mixed $phone 手机号
      * @param string $openId 用户 openId，手机号和 openId 不能同时为空，当手机号为空时请传空串
      * @param string $cardId 卡 ID，为空则查询默认卡余额
@@ -232,7 +233,7 @@ class Crm extends Api
     }
 
     /**
-     * 修改积分接口   4
+     * 修改积分接口4
      * @param int $point 要修改的积分数
      * @param int $oldPoint 原积分数
      * @param string $operator 操作人
@@ -291,7 +292,7 @@ class Crm extends Api
      * @return User
      * @throws FuiouException|InvalidArgumentException
      */
-    public function queryUserInfo($phone = '', $openId = ''): User
+    public function queryUserInfo($phone = '', string $openId = ''): User
     {
         if (empty($phone) && empty($openId)) {
             throw new InvalidArgumentException('phone和openId 不能同时为空');
@@ -362,7 +363,7 @@ class Crm extends Api
 
     /**
      * 查询用户优惠券列表  7
-     * @param $phone 手机号
+     * @param mixed $phone 手机号
      * @param string $openId 用户 openId openId 和手机号不能同时为空，手机号为空时请传空串，
      * @param string $couponState 优惠券状态, 00：正常,01：过期,02：作废,03：未生效, 04:已转赠
      * @param string $useState 使用状态, 00：未使用,01：已使用,02：冻结中
@@ -585,7 +586,7 @@ class Crm extends Api
     /**
      * 新增会员接口 11
      * @param int $shopId 门店 Id
-     * @param int $phone 手机号
+     * @param mixed $phone 手机号
      * @param string $pwd 6-16 位纯数字账户密码明文，当不填是请传空串
      * @param string $offlineCardNo 不能为11 位和17 位，不能小于6 大于 50 线下实体卡号（线下实体卡号和手机号二选一，必须至少填写一个）
      * @param string $userName 用户姓名
@@ -600,7 +601,7 @@ class Crm extends Api
      */
     public function registerUserApi(
         int $shopId,
-        int $phone,
+        $phone,
         string $openId = '',
         string $pwd = '',
         string $offlineCardNo = '',
@@ -757,13 +758,13 @@ class Crm extends Api
     /**
      * 充值 16
      * @param string $openId 用户微信openId
-     * @param string $shopId 门店 id
-     * @param string $chargeAmt 充值金额（元）
-     * @param string $freeAmt 赠送金额元），没有则传空串
+     * @param mixed $shopId 门店 id
+     * @param mixed $chargeAmt 充值金额（元）
+     * @param mixed $freeAmt 赠送金额元），没有则传空串
      * @return array
      * @throws FuiouException
      */
-    public function recharge(string $openId, string $shopId, string $chargeAmt, string $freeAmt): array
+    public function recharge(string $openId, $shopId, $chargeAmt, $freeAmt): array
     {
         //mchntCd+"|"+openId+"|"+shopId+"|"+chargeAmt+"|"+freeAmt+ "|"+salt 做 MD5 加密。
         return $this->request(

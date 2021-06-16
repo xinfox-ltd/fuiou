@@ -9,7 +9,7 @@ namespace Api;
 
 use XinFox\Fuiou\Api\Applet;
 use PHPUnit\Framework\TestCase;
-use XinFox\Fuiou\Exceptions\ApiException;
+use XinFox\Fuiou\Exceptions\FuiouException;
 use XinFox\Fuiou\Fuiou;
 
 class AppletTest extends TestCase
@@ -101,6 +101,16 @@ class AppletTest extends TestCase
         $this->assertIsArray($array);
     }
 
+    /**
+     * @depends testCreateFuiou
+     */
+    public function testQueryGoodsDetailByAppletChannel(Fuiou $fuiou)
+    {
+        $array = $fuiou->applet->queryGoodsDetailByAppletChannel(681844798);
+        var_dump($array);
+        $this->assertIsArray($array);
+    }
+
     public function testQueryOrderByOrderNo()
     {
     }
@@ -111,7 +121,7 @@ class AppletTest extends TestCase
 
     /**
      * @depends testCreateFuiou
-     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     * @throws \XinFox\Fuiou\Exceptions\FuiouException
      * @throws \XinFox\Fuiou\Exceptions\InvalidArgumentException
      */
     public function testQueryShopAreaInfoList(Fuiou $fuiou)
@@ -135,7 +145,7 @@ var_dump($array);
 
     /**
      * @depends testCreateFuiou
-     * @throws \XinFox\Fuiou\Exceptions\ApiException
+     * @throws \XinFox\Fuiou\Exceptions\FuiouException
      * @throws \XinFox\Fuiou\Exceptions\InvalidArgumentException
      */
     public function testQueryShopTabInfoList(Fuiou $fuiou)
@@ -145,10 +155,6 @@ var_dump($array);
     }
 
     public function testQueryGoodsDetailByPOSChannel()
-    {
-    }
-
-    public function testQueryGoodsDetailByAppletChannel()
     {
     }
 
