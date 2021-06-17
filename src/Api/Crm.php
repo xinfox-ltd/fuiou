@@ -784,11 +784,11 @@ class Crm extends Api
      * 余额消费 17
      * @param string $openId 用户微信openId
      * @param string $termId 消费终端号
-     * @param string $chargeAmt 消费金额（元
+     * @param mixed $chargeAmt 消费金额（元
      * @return array
      * @throws FuiouException
      */
-    public function consume(string $openId, string $termId, string $chargeAmt): array
+    public function consume(string $openId, string $termId, $chargeAmt): array
     {
         //mchntCd+"|"+openId+"|"+termId+"|"+consumeAmt+"|"+salt 做 MD5加密。
         return $this->request(
@@ -805,7 +805,7 @@ class Crm extends Api
     /**
      * @param string $action
      * @param array $params
-     * @param $signParams
+     * @param mixed $signParams
      * @return array
      * @throws FuiouException
      */
@@ -848,7 +848,7 @@ class Crm extends Api
 
     /**
      * 签名方式2
-     * @param $phone
+     * @param mixed $phone
      * @return string
      */
     protected function sign2($phone = ''): string
