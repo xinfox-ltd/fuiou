@@ -585,8 +585,9 @@ class Crm extends Api
 
     /**
      * 新增会员接口 11
-     * @param int $shopId 门店 Id
+     *
      * @param mixed $phone 手机号
+     * @param int $shopId 门店 Id
      * @param string $pwd 6-16 位纯数字账户密码明文，当不填是请传空串
      * @param string $offlineCardNo 不能为11 位和17 位，不能小于6 大于 50 线下实体卡号（线下实体卡号和手机号二选一，必须至少填写一个）
      * @param string $userName 用户姓名
@@ -600,8 +601,8 @@ class Crm extends Api
      * @throws FuiouException
      */
     public function registerUserApi(
-        int $shopId,
         $phone,
+        int $shopId = 0,
         string $openId = '',
         string $pwd = '',
         string $offlineCardNo = '',
@@ -613,21 +614,24 @@ class Crm extends Api
         string $addInf2 = ''
     ) {
 //       mchntCd +"|"+ pwd+"|" +phone+"|"+ offlineCardNo+"|"+ salt做 MD5 加密。
+        $data = [
+            'pwd' => $pwd,
+            'phone' => $phone,
+            'offlineCardNo' => $offlineCardNo,
+            'userName' => $userName,
+            'sex' => $sex,
+            'userBirth' => $userBirth,
+            'openId' => $openId,
+            'aliUserId' => $aliUserId,
+            'addInf1' => $addInf1,
+            'addInf2' => $addInf2,
+        ];
+        if ($shopId) {
+            $data['shopId'] = $shopId;
+        }
         return $this->request(
             '/api/registerUserApi.action',
-            [
-                'pwd' => $pwd,
-                'phone' => $phone,
-                'offlineCardNo' => $offlineCardNo,
-                'userName' => $userName,
-                'sex' => $sex,
-                'userBirth' => $userBirth,
-                'shopId' => $shopId,
-                'openId' => $openId,
-                'aliUserId' => $aliUserId,
-                'addInf1' => $addInf1,
-                'addInf2' => $addInf2,
-            ],
+            $data,
             [$pwd, $phone, $offlineCardNo]
         );
     }
