@@ -9,6 +9,7 @@ namespace XinFox\Fuiou;
 
 use XinFox\Fuiou\Api\Applet;
 use XinFox\Fuiou\Api\Crm;
+use XinFox\Fuiou\Api\Supply;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 
 /**
@@ -56,6 +57,8 @@ class Fuiou
                 return new Crm($this);
             case 'applet':
                 return new Applet($this);
+            case 'supply':
+                return new Supply($this);
             default:
                 throw new InvalidArgumentException();
         }
