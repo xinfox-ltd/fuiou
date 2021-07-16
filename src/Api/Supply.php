@@ -7,7 +7,7 @@ namespace XinFox\Fuiou\Api;
 use XinFox\Fuiou\Exceptions\FuiouException;
 
 /**
- * 上海富有支付--供应链接口
+ * 上海富有支付 -- 供应链接口
  * Class Applet
  * @package XinFox\Fuiou\Api
  */
