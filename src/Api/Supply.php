@@ -71,7 +71,7 @@ class Supply extends Api
     protected function sign1(array $array = []): string
     {
         array_unshift($array, $this->config['mchnt_cd']);
-        array_push($array, $this->config['salt']);
+        array_push($array, $this->config['supply_salt']);
         return $this->sign($array);
     }
 
@@ -85,7 +85,7 @@ class Supply extends Api
         $array = [
             $phone,
             $this->getMchntCd(),
-            $this->config['salt']
+            $this->config['supply_salt']
         ];
 
         return $this->sign($array);
