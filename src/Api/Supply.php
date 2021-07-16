@@ -28,7 +28,7 @@ class Supply extends Api
             [
                 'relateInsCd' => $relateInsCd
             ],
-            [$this->config['secret']]
+            [$this->config['supply_secret']]
         );
     }
 
