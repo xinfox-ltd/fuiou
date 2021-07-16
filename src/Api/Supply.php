@@ -15,6 +15,30 @@ class Supply extends Api
 {
 
     /**
+     * 批量获取商品详情
+     *
+     * @param   int    $shopId       门店 ID，总店商品，id 传 0
+     * @param   array  $goodsIdList  需要查询的商品 id 的集 合,例[123,234,456]
+     * @param   int    $pageNum      页码
+     * @param   int    $pageSize     每页的数量
+     *
+     * @return  array                [return description]
+     */
+    public function queryGoodsInfoList(int $shopId = 0, array $goodsIdList = [], int $pageNum = 1, int $pageSize = 10000): array
+    {
+        return $this->request(
+            '/api/queryGoodsInfoList.action',
+            [
+                'shopId' => $shopId,
+                'goodsIdList' => $goodsIdList,
+                'pageNum' => $pageNum,
+                'pageSize' => $pageSize,
+            ],
+            [$this->config['supply_secret'], $shopId]
+        );
+    }
+
+    /**
      * 获取分组列表 -- 商品分类
      *
      * @param   string  $relateInsCd  代理商机构号(使用机构密 钥时填写)
