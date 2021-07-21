@@ -10,6 +10,7 @@ namespace XinFox\Fuiou;
 
 use XinFox\Fuiou\Api\Pay;
 use XinFox\Fuiou\Api\Crm;
+use XinFox\Fuiou\Api\Partner;
 use XinFox\Fuiou\Api\Applet;
 use XinFox\Fuiou\Api\Supply;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
@@ -59,6 +60,8 @@ class Fuiou
                 return new Pay($this);
             case 'crm':
                 return new Crm($this);
+            case 'partner':
+                return new Partner($this);
             case 'applet':
                 return new Applet($this);
             case 'supply':
