@@ -147,6 +147,7 @@ class Partner extends Api
      * 订单查询
      * 由于不可抗因素导致交易超时，或者状态不明确时，需要商户主动发起交易查询。来确定交易的最终状态。
      * 目前系统支持往前查询3日的交易。即T-3 到 T 日的交易才能查询到记录。
+     * 3日前的交易查询请用[历史订单]接口查询
      * @return  Array   [return description]
      */
     public function order(): Array
@@ -159,6 +160,27 @@ class Partner extends Api
         }
 
         return $this->request('/commonQuery');
+    }
+
+    /**
+     * 历史订单查询
+     * 本接口提供给商户查询历史交易记录。查询实时交易状态、结果(当前交易)须使用[订单查询]接口
+     * @return  Array   [return description]
+     */
+    public function history(): Array
+    {
+        if (
+            $this->issetRequestParams('mchnt_order_no') === false &&
+            $this->issetRequestParams('channel_order_id') === false &&
+            $this->issetRequestParams('transaction_id') === false
+        ) {
+            throw new FuiouException('mchnt_order_no、channel_order_id、transaction_id 三选一');
+        }
+        if ($this->issetRequestParams('order_type') === false) {
+            throw new FuiouException('order_type 不能为空');
+        }
+        
+        return $this->request('/hisTradeQuery');
     }
 
     /**
