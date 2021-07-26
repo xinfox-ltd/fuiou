@@ -181,7 +181,7 @@ class Partner extends Api
             }
 
             // 签名验证
-            $verify = openssl_verify(rtrim($dataStr, '&'), base64_decode(str_replace("\n", "", $responseData['sign'])), $this->pem($this->config['public_pem']), OPENSSL_ALGO_MD5);
+            $verify = openssl_verify(rtrim($dataStr, '&'), base64_decode(str_replace(["\n", " "], ["", "+"], $responseData['sign'])), $this->pem($this->config['public_pem']), OPENSSL_ALGO_MD5);
             if ($verify === 1) { // 签名正确返回 
                 return true;
             } else if ($verify === 0) { // 签名错误返回 0
