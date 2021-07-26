@@ -89,6 +89,12 @@ class Partner extends Api
             throw new FuiouException('refund_amt 不能为空');
         }
 
+        // 设定可留空 必传参数
+        if ($this->issetRequestParams('operator_id') === false) {
+            $this->setRequestParams('operator_id', '');
+        }
+
+        $this->setRequestParams('mchnt_order_no', $this->config['pay_order_prefix'] . $this->requestParams['mchnt_order_no']);
         return $this->request('/commonRefund');
     }
 
@@ -127,6 +133,20 @@ class Partner extends Api
         }
         if ($this->issetRequestParams('order_type') === false) {
             throw new FuiouException('order_type 不能为空');
+        }
+
+        // 设定可留空 必传参数
+        if ($this->issetRequestParams('mchnt_order_no') === false) {
+            $this->setRequestParams('mchnt_order_no', '');
+        }
+        if ($this->issetRequestParams('channel_order_id') === false) {
+            $this->setRequestParams('channel_order_id', '');
+        }
+        if ($this->issetRequestParams('transaction_id') === false) {
+            $this->setRequestParams('transaction_id', '');
+        }
+        if ($this->issetRequestParams('trade_dt') === false) {
+            $this->setRequestParams('trade_dt', '');
         }
         
         return $this->request('/hisTradeQuery');
@@ -232,7 +252,7 @@ class Partner extends Api
      *
      * @return  Array            [return description]
      */
-    private function request(string $action): array
+    private function request(string $action): Array
     {
         // 设置公共参数
         $this->setRequestParams('version', '1.0');
