@@ -400,7 +400,7 @@ class Applet extends Api
         if ($status != '0000') {
             throw new FuiouException($msg, (int)$status);
         }
-        return $response['data'];
+        return (array) $response['data'];
     }
 
 
