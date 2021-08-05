@@ -107,12 +107,12 @@ class Applet extends Api
     /**
      * @param int $thirdOrderNo
      * @param string $orderRefundReason
-     * @return array
+     * @return int
      * @throws FuiouException
      */
-    public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason): array
+    public function refundOrderOnAll(int $thirdOrderNo, string $orderRefundReason): int
     {
-        return $this->refundOrder($thirdOrderNo, $orderRefundReason, 'all');
+        return (int)$this->refundOrder($thirdOrderNo, $orderRefundReason, 'all');
     }
 
     /**
@@ -120,7 +120,7 @@ class Applet extends Api
      * @param string $orderRefundReason
      * @param float $partRefundAmt
      * @param array $partRefundGoods
-     * @return array
+     * @return int
      * @throws FuiouException
      */
     public function refundOrderOnPart(
@@ -128,8 +128,8 @@ class Applet extends Api
         string $orderRefundReason,
         float $partRefundAmt,
         array $partRefundGoods
-    ): array {
-        return $this->refundOrder(
+    ): int {
+        return (int)$this->refundOrder(
             $thirdOrderNo,
             $orderRefundReason,
             'part',
@@ -145,7 +145,7 @@ class Applet extends Api
      * @param string $refundType 是 all （全额退款），part（部分退款）
      * @param float $partRefundAmt 部分退款金额
      * @param array $partRefundGoods 部分退款商品名
-     * @return array
+     * @return int
      * @throws FuiouException
      */
     private function refundOrder(
@@ -154,7 +154,7 @@ class Applet extends Api
         string $refundType,
         float $partRefundAmt = 0,
         array $partRefundGoods = array()
-    ): array {
+    ): int {
         $content = array(
             'thirdOrderNo' => $thirdOrderNo,
             'status' => '99',
@@ -164,7 +164,7 @@ class Applet extends Api
             'refundType' => $refundType,
             'partRefundGoods' => $partRefundGoods,
         );
-        return $this->post('refundOrder', $content);
+        return (int)$this->post('refundOrder', $content);
     }
 
     /**
