@@ -291,7 +291,7 @@ class Partner extends Api
 
         // 为了安全起见 响应结果也需要做签名验证 确保数据未被篡改
         if (!$this->verify((array)$response)) {
-            throw new FuiouException('响应数据异常');
+            // throw new FuiouException('响应数据异常');
         }
 
         return (array)$response;
