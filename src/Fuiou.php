@@ -3,12 +3,16 @@
 /**
  * [XinFox System] Copyright (c) 2011 - 2021 XINFOX.CN
  */
+
 declare(strict_types=1);
 
 namespace XinFox\Fuiou;
 
-use XinFox\Fuiou\Api\Applet;
+use XinFox\Fuiou\Api\Pay;
 use XinFox\Fuiou\Api\Crm;
+use XinFox\Fuiou\Api\Partner;
+use XinFox\Fuiou\Api\Applet;
+use XinFox\Fuiou\Api\Supply;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 
 /**
@@ -52,10 +56,16 @@ class Fuiou
     public function __get($name)
     {
         switch ($name) {
+            case 'pay':
+                return new Pay($this);
             case 'crm':
                 return new Crm($this);
+            case 'partner':
+                return new Partner($this);
             case 'applet':
                 return new Applet($this);
+            case 'supply':
+                return new Supply($this);
             default:
                 throw new InvalidArgumentException();
         }

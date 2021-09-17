@@ -783,6 +783,24 @@ class Crm extends Api
         );
     }
 
+    /**
+     * 余额退款接口
+     * @param string 消费流水号，消费接口返回
+     * @param [type] 退款金额，大于0，小于等于订单金额
+
+     * @return array
+     */
+    public function refundBalance(string $consumeSsn, $refundAmt): array
+    {
+        return $this->request(
+            '/api/refundBalance.action',
+            [
+                'consumeSsn' => $consumeSsn,
+                'refundAmt' => $refundAmt
+            ],
+            [$consumeSsn, $refundAmt]
+        );
+    }
 
     /**
      * 余额消费 17
