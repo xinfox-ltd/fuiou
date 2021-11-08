@@ -261,7 +261,6 @@ class Partner extends Api
         $this->setRequestParams('term_id', '88888888');
         $this->setRequestParams('random_str', md5(uniqid()));
         $this->setRequestParams('sign', $this->sign($this->requestParams));
-
         $xml = $this->arrToXml($this->requestParams);
         $url = str_replace(' ', '+', $this->getApiHost() . $action);
         $ch = curl_init();
