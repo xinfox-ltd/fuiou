@@ -48,7 +48,7 @@ abstract class Api
         try {
             $response = $client->post($url, ['json' => $data]);
         } catch (GuzzleException $exception) {
-            throw new FuiouException('网络异常-'.$exception->getMessage());
+            throw new FuiouException('网络异常-' . $exception->getMessage());
         }
         $bodyContent = $response->getBody()->getContents();
 

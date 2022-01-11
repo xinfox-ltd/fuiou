@@ -13,6 +13,7 @@ use XinFox\Fuiou\Api\Crm;
 use XinFox\Fuiou\Api\Partner;
 use XinFox\Fuiou\Api\Applet;
 use XinFox\Fuiou\Api\Supply;
+use XinFox\Fuiou\Api\Saas\Goods;
 use XinFox\Fuiou\Exceptions\InvalidArgumentException;
 
 /**
@@ -66,6 +67,10 @@ class Fuiou
                 return new Applet($this);
             case 'supply':
                 return new Supply($this);
+
+                // 富有新接口
+            case 'saasGoods':
+                return new Goods($this);
             default:
                 throw new InvalidArgumentException();
         }

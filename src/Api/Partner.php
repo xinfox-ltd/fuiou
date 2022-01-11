@@ -34,7 +34,7 @@ class Partner extends Api
      *
      * @return  Array   [return description]
      */
-    public function pay(): Array
+    public function pay(): array
     {
         if ($this->issetRequestParams('notify_url') === false) {
             throw new FuiouException('notify_url 不能为空');
@@ -71,7 +71,7 @@ class Partner extends Api
      *
      * @return  Array   [return description]
      */
-    public function refund(): Array
+    public function refund(): array
     {
         if ($this->issetRequestParams('mchnt_order_no') === false) {
             throw new FuiouException('mchnt_order_no 不能为空');
@@ -105,7 +105,7 @@ class Partner extends Api
      * 3日前的交易查询请用[历史订单]接口查询
      * @return  Array   [return description]
      */
-    public function order(): Array
+    public function order(): array
     {
         if ($this->issetRequestParams('order_type') === false) {
             throw new FuiouException('order_type 不能为空');
@@ -122,7 +122,7 @@ class Partner extends Api
      * 本接口提供给商户查询历史交易记录。查询实时交易状态、结果(当前交易)须使用[订单查询]接口
      * @return  Array   [return description]
      */
-    public function history(): Array
+    public function history(): array
     {
         if (
             $this->issetRequestParams('mchnt_order_no') === false &&
@@ -148,7 +148,7 @@ class Partner extends Api
         if ($this->issetRequestParams('trade_dt') === false) {
             $this->setRequestParams('trade_dt', '');
         }
-        
+
         return $this->request('/hisTradeQuery');
     }
 
@@ -252,7 +252,7 @@ class Partner extends Api
      *
      * @return  Array            [return description]
      */
-    private function request(string $action): Array
+    private function request(string $action): array
     {
         // 设置公共参数
         $this->setRequestParams('version', '1.0');

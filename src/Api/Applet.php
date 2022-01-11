@@ -420,8 +420,8 @@ class Applet extends Api
         float  $total,
         string $notifyUrl,
         string $payNo,
-        string $payType = 'js_pay') : array
-    {
+        string $payType = 'js_pay'
+    ): array {
         // TODO 放置配置文件
         $baseUrl  = 'http://pay.beejian.com/index';
         $prefixNo = '1434';
@@ -430,7 +430,7 @@ class Applet extends Api
         $url = "{$baseUrl}/{$payType}?total={$total}&mchnt_order_no={$payNo}&mchnt_cd={$this->config['mchnt_cd']}&notify_url={$notifyUrl}&sub_openid={$openid}&sub_appid={$appid}";
         $res = json_decode(file_get_contents($url), true);
 
-        if ($res['status'] != 1){
+        if ($res['status'] != 1) {
             throw new FuiouException($res['info']);
         }
 
@@ -469,6 +469,4 @@ class Applet extends Api
     {
         return $this->test === false ? 'https://scte.fuioupay.com/callBack/open.action' : 'https://scantoeattest.fuiou.com/callBack/open.action';
     }
-
-
 }
