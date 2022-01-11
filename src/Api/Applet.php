@@ -77,7 +77,8 @@ class Applet extends Api
         if ($orderNo === null) {
             throw new FuiouException('订单已存在');
         }
-        return $orderNo;
+
+        return is_array($orderNo) ? $orderNo[0] : $orderNo;
     }
 
     /**
